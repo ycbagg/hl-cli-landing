@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hl-cli — Terminal trading for Hyperliquid</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+            background: #0a0a0a;
+            color: #e0e0e0;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        header {
+            margin-bottom: 3rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #222;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .tagline {
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        section {
+            margin-bottom: 3rem;
+        }
+
+        h2 {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+        }
+
+        h3 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        h3:first-child {
+            margin-top: 0;
+        }
+
+        p {
+            color: #aaa;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .terminal {
+            background: #111;
+            border: 1px solid #222;
+            border-radius: 4px;
+            padding: 1rem;
+            overflow-x: auto;
+            margin-bottom: 1rem;
+        }
+
+        .terminal code {
+            display: block;
+            font-size: 0.85rem;
+            line-height: 1.8;
+        }
+
+        .prompt {
+            color: #888;
+        }
+
+        .cmd {
+            color: #4ec9b0;
+        }
+
+        .comment {
+            color: #6a9955;
+        }
+
+        .highlight {
+            color: #dcdcaa;
+        }
+
+        ul {
+            list-style: none;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+
+        ul li {
+            padding: 0.4rem 0;
+        }
+
+        ul li::before {
+            content: "—";
+            color: #444;
+            margin-right: 0.75rem;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .feature {
+            background: #111;
+            border: 1px solid #222;
+            border-radius: 4px;
+            padding: 1.25rem;
+        }
+
+        .feature h3 {
+            margin-top: 0;
+            color: #4ec9b0;
+        }
+
+        .feature p {
+            margin-bottom: 0;
+            color: #888;
+            font-size: 0.85rem;
+        }
+
+        /* Fee comparison table */
+        .fee-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            margin: 1rem 0;
+        }
+
+        .fee-table th,
+        .fee-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #222;
+        }
+
+        .fee-table th {
+            color: #666;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+
+        .fee-table td {
+            color: #aaa;
+        }
+
+        .fee-table .savings {
+            color: #4ec9b0;
+        }
+
+        .fee-table .taker {
+            color: #f14c4c;
+        }
+
+        /* Steps */
+        .steps {
+            counter-reset: step;
+        }
+
+        .step {
+            position: relative;
+            padding-left: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .step::before {
+            counter-increment: step;
+            content: counter(step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 1.5rem;
+            height: 1.5rem;
+            background: #222;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            color: #4ec9b0;
+        }
+
+        .step h3 {
+            margin-top: 0;
+        }
+
+        .step p {
+            margin-bottom: 0.5rem;
+        }
+
+        .step .terminal {
+            margin-top: 0.75rem;
+        }
+
+        /* FAQ */
+        .faq-item {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #1a1a1a;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .faq-q {
+            color: #fff;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .faq-a {
+            color: #888;
+            font-size: 0.85rem;
+            margin-bottom: 0;
+        }
+
+        /* Requirements */
+        .req-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .req-item {
+            background: #111;
+            border: 1px solid #222;
+            border-radius: 4px;
+            padding: 1rem;
+        }
+
+        .req-item .label {
+            color: #666;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .req-item .value {
+            color: #fff;
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+        }
+
+        /* Pricing */
+        .pricing {
+            background: #111;
+            border: 1px solid #222;
+            border-radius: 4px;
+            padding: 1.5rem;
+        }
+
+        .price {
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 0.25rem;
+        }
+
+        .price-note {
+            color: #666;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.75rem 1.5rem;
+            background: #fff;
+            color: #000;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 4px;
+            transition: opacity 0.15s;
+        }
+
+        .cta:hover {
+            opacity: 0.85;
+        }
+
+        .contact {
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        .contact a {
+            color: #888;
+            text-decoration: none;
+        }
+
+        .contact a:hover {
+            color: #fff;
+        }
+
+        footer {
+            margin-top: 4rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #222;
+            color: #444;
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 1.5rem;
+            }
+
+            h1 {
+                font-size: 1.25rem;
+            }
+
+            .terminal code {
+                font-size: 0.75rem;
+            }
+
+            .req-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .fee-table {
+                font-size: 0.75rem;
+            }
+
+            .fee-table th,
+            .fee-table td {
+                padding: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>hl-cli</h1>
+            <p class="tagline">Stop clicking. Start executing.</p>
+        </header>
+
+        <!-- What it is -->
+        <section>
+            <h2>What it is</h2>
+            <p>A command-line trading interface for Hyperliquid perpetual futures. Built for traders who want speed, precision, and lower fees.</p>
+        </section>
+
+        <!-- Why -->
+        <section>
+            <h2>Why hl-cli</h2>
+            <p>Typing is faster than clicking through UI menus. hl-cli lets you place, modify, and manage orders in seconds — no tabs, no sliders, no confirmation dialogs. Every order type is a single command with full control over price, size, and execution. Build strategies the Hyperliquid UI doesn't support: scaled entries across a price range, trailing limits that keep you at the top of the book, chained sequences that set stops and take-profits the moment you're filled. The precision also means more of your orders can be placed as limit orders instead of market orders — keeping you on the maker side of the fee structure. Save your setups as shortcuts and execute them with one keystroke.</p>
+        </section>
+
+        <!-- Features -->
+        <section>
+            <h2>Features</h2>
+            <div class="feature-grid">
+                <div class="feature">
+                    <h3>Chase Orders</h3>
+                    <p>Trailing limit orders that follow the bid/ask. Places at the front of the book and continuously adjusts as the market moves. You get filled at maker fees instead of crossing the spread.</p>
+                </div>
+                <div class="feature">
+                    <h3>Split Orders</h3>
+                    <p>Distribute orders across a price range. Scale into positions or set layered take-profits. Supports linear weighting (scale 1 to 3) for bottom-heavy or top-heavy fills.</p>
+                </div>
+                <div class="feature">
+                    <h3>Variables & Expressions</h3>
+                    <p>Use lastprice, bidprice, askprice, mark, possize, margin, entry in your commands. Math works too: @lastprice-50, @entry+2%, 100%margin.</p>
+                </div>
+                <div class="feature">
+                    <h3>Command Chaining</h3>
+                    <p>Execute sequences: chase buy 0.1, wait pos, stop 90000, tp 110000. Use comma for serial, semicolon for parallel execution.</p>
+                </div>
+                <div class="feature">
+                    <h3>Shortcuts</h3>
+                    <p>Bind complex commands to single keys. alias q split buy 44%margin from bidprice to bidprice-0.5%. Saved across sessions in startup.txt.</p>
+                </div>
+                <div class="feature">
+                    <h3>Reprice</h3>
+                    <p>Shift all resting orders by percentage. bump +0.5% moves bids up and asks down. Keep your orders competitive without manual repricing.</p>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 2rem;">Maker-first by default</h3>
+            <p>All limit orders default to post-only (ALO) — you always pay maker fees instead of taker. On Hyperliquid, that's 0.015% vs 0.045%. Taker fees are 3x higher.</p>
+
+            <table class="fee-table">
+                <thead>
+                    <tr>
+                        <th>Monthly Volume</th>
+                        <th>Taker Fees (0.045%)</th>
+                        <th>Maker Fees (0.015%)</th>
+                        <th>You Save</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>$100,000</td>
+                        <td class="taker">$45</td>
+                        <td>$15</td>
+                        <td class="savings">$30/mo</td>
+                    </tr>
+                    <tr>
+                        <td>$500,000</td>
+                        <td class="taker">$225</td>
+                        <td>$75</td>
+                        <td class="savings">$150/mo</td>
+                    </tr>
+                    <tr>
+                        <td>$1,000,000</td>
+                        <td class="taker">$450</td>
+                        <td>$150</td>
+                        <td class="savings">$300/mo</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p style="color: #666; font-size: 0.8rem;">At higher volume tiers, maker fees drop to 0%. Taker fees remain 0.045% until $1B+.</p>
+        </section>
+
+        <!-- Commands -->
+        <section>
+            <h2>Example Commands</h2>
+            
+            <h3>Basic orders</h3>
+            <div class="terminal">
+                <code><span class="prompt">BTC&gt;</span> <span class="cmd">buy 0.01</span>                     <span class="comment"># market buy</span></code>
+                <code><span class="prompt">BTC&gt;</span> <span class="cmd">buy $500</span>                    <span class="comment"># buy $500 worth at market</span></code>
+                <code><span class="prompt">BTC&gt;</span> <span class="cmd">sell 0.01 @105000</span>           <span class="comment"># limit sell at $105k</span></code>
+                <code><span class="prompt">BTC&gt;</span> <span class="cmd">buy 0.01 @lastprice-50</span>      <span class="comment"># limit buy $50 below current</span></code>
+            </div>
+
+            <h3>Position management</h3>
+            <div class="terminal">
+                <code><span class="prompt">BTC&gt;</span> <span class="cmd">stop 95000</span>                  <span class="comment"># stop loss at $95k</span></code>
+                <code><span class="prompt">BTC&gt;</span> <span class="cmd">tp 110000</span>                   <span class="comment"># take profit at $110k</span></code>
+                <code><span class="prompt">BTC&gt;</span> <span class="cmd">close</span>                       <span class="comment"># close entire position</span></code>
+                <code><span class="prompt">BTC&gt;</span> <span class="cmd">close 50%</span>                   <span class="comment"># close half</span></code>
+            </div>
+
+            <h3>Chase orders</h3>
+            <div class="terminal">
+                <code><span class="prompt">BTC&gt;</span> <span class="cmd">chase buy 0.1</span>               <span class="comment"># chase at best bid (maker fees)</span></code>
+                <code><span class="prompt">BTC&gt;</span> <span class="cmd">chase sell $500</span>              <span class="comment"># chase $500 worth at best ask</span></code>
+            </div>
+
+            <h3>Split orders</h3>
+            <div class="terminal">
+                <code><span class="comment"># Scale entry: buy across 2% range below market</span></code>
+                <code><span class="prompt">BTC&gt;</span> <span class="cmd">split buy 100%margin from bidprice to bidprice-2%</span></code>
+                <code></code>
+                <code><span class="comment"># Scale TP: sell position across 3% range (reduce-only)</span></code>
+                <code><span class="prompt">BTC&gt;</span> <span class="cmd">split sell 100%possize from entry to entry+3% ro</span></code>
+                <code></code>
+                <code><span class="comment"># Weighted: more size at bottom (scale 1 to 3)</span></code>
+                <code><span class="prompt">BTC&gt;</span> <span class="cmd">split buy 44%margin from bidprice to bidprice-1% scale 1 to 3</span></code>
+            </div>
+
+            <h3>Chaining</h3>
+            <div class="terminal">
+                <code><span class="comment"># Entry + stops in sequence</span></code>
+                <code><span class="prompt">BTC&gt;</span> <span class="cmd">chase buy 0.1, wait pos, stop 90000, tp 110000</span></code>
+                <code></code>
+                <code><span class="comment"># Stop and TP in parallel</span></code>
+                <code><span class="prompt">BTC&gt;</span> <span class="cmd">buy 0.1 @95000, wait pos, stop 90000; tp 110000</span></code>
+            </div>
+
+            <h3>Shortcuts</h3>
+            <div class="terminal">
+                <code><span class="comment"># Bind strategies to single keys</span></code>
+                <code><span class="prompt">BTC&gt;</span> <span class="cmd">alias q split buy 44%margin from bidprice-0.01% to bidprice-0.45% scale 1 to 3</span></code>
+                <code><span class="prompt">BTC&gt;</span> <span class="cmd">alias tpb split sell 80%possize from askprice+0.04% to askprice+0.16% ro</span></code>
+                <code></code>
+                <code><span class="comment"># Now just type:</span></code>
+                <code><span class="prompt">BTC&gt;</span> <span class="cmd">q</span>                            <span class="comment"># scale-in at bid</span></code>
+                <code><span class="prompt">BTC&gt;</span> <span class="cmd">tpb</span>                          <span class="comment"># TP ladder for longs</span></code>
+            </div>
+        </section>
+
+        <!-- How it works -->
+        <section>
+            <h2>How It Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <h3>Download</h3>
+                    <p>Get the CLI and install dependencies.</p>
+                    <div class="terminal">
+                        <code>pip install hyperliquid-python-sdk prompt_toolkit eth-account</code>
+                    </div>
+                </div>
+                <div class="step">
+                    <h3>Configure</h3>
+                    <p>Add your Hyperliquid wallet address and private key to config.json.</p>
+                    <div class="terminal">
+                        <code>{</code>
+                        <code>  "account_address": "0xYour...",</code>
+                        <code>  "secret_key": "0xYour...",</code>
+                        <code>  "network": "mainnet"</code>
+                        <code>}</code>
+                    </div>
+                </div>
+                <div class="step">
+                    <h3>Trade</h3>
+                    <p>Run the CLI and start executing.</p>
+                    <div class="terminal">
+                        <code>python main.py</code>
+                        <code></code>
+                        <code><span class="prompt">BTC&gt;</span> <span class="cmd">buy 0.01</span></code>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Requirements -->
+        <section>
+            <h2>Requirements</h2>
+            <div class="req-grid">
+                <div class="req-item">
+                    <div class="label">Runtime</div>
+                    <div class="value">Python 3.10+</div>
+                </div>
+                <div class="req-item">
+                    <div class="label">Exchange</div>
+                    <div class="value">Hyperliquid account</div>
+                </div>
+                <div class="req-item">
+                    <div class="label">Auth</div>
+                    <div class="value">Wallet private key</div>
+                </div>
+                <div class="req-item">
+                    <div class="label">OS</div>
+                    <div class="value">Windows / Mac / Linux</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section>
+            <h2>FAQ</h2>
+            
+            <div class="faq-item">
+                <div class="faq-q">Is my private key safe?</div>
+                <div class="faq-a">Your key stays on your machine. It's only used locally to sign transactions — it's never sent anywhere except to Hyperliquid's API as signed messages. Same as the official SDK.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-q">Can I use this with an API wallet?</div>
+                <div class="faq-a">Use your main Hyperliquid wallet address, not an API wallet. The account_address should be your main wallet; the private key can be from an API wallet if you've set one up, but the address must be the main one.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-q">What happens if my order gets rejected?</div>
+                <div class="faq-a">ALO (post-only) orders are rejected if they would cross the spread. This is by design — it ensures you're paying maker fees, not taker. Market orders and immediate-or-cancel orders still work normally for when you need the certainty of an instant fill.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-q">Can I test without real money?</div>
+                <div class="faq-a">Yes. Run with --testnet to use Hyperliquid's testnet. You need a wallet that has deposited on mainnet before — register on testnet.hyperliquid.xyz with that wallet, claim test funds, then trade with fake money.</div>
+            </div>
+
+
+        </section>
+
+        <!-- Pricing -->
+        <section>
+            <h2>Pricing</h2>
+            <div class="pricing">
+                <div class="price">$10/month</div>
+                <div class="price-note">Beta pricing. Subject to change.</div>
+                <a href="https://x.com/hlclixyz" class="cta">Join Waitlist</a>
+            </div>
+        </section>
+
+        <!-- Contact -->
+        <section>
+            <h2>Contact</h2>
+            <p class="contact">
+                X: <a href="https://x.com/hlclixyz" target="_blank">@hlclixyz</a><br>
+                Email: <a href="mailto:hl-cli.xyz@proton.me">hl-cli.xyz@proton.me</a>
+            </p>
+        </section>
+
+        <footer>
+            hl-cli is not affiliated with Hyperliquid.
+        </footer>
+    </div>
+</body>
+</html>
