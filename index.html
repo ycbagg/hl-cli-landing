@@ -375,7 +375,7 @@
         <!-- Why -->
         <section>
             <h2>Why hl-cli</h2>
-            <p>Typing is faster than clicking through UI menus. hl-cli lets you place, modify, and manage orders in seconds — no tabs, no sliders, no confirmation dialogs. Every order type is a single command with full control over price, size, and execution. Build strategies the Hyperliquid UI doesn't support: scaled entries across a price range, trailing limits that keep you at the top of the book, chained sequences that set stops and take-profits the moment you're filled. The precision also means more of your orders can be placed as limit orders instead of market orders — keeping you on the maker side of the fee structure. Save your setups as shortcuts and execute them with one keystroke.</p>
+            <p>Typing is faster than clicking through UI menus. hl-cli lets you place, modify, and manage orders in seconds — no tabs, no sliders, no confirmation dialogs. Every order type is a single command with full control over price, size, and execution. Build strategies the Hyperliquid UI doesn't support: trailing limits that follow the book, chained sequences that set stops and take-profits the moment you're filled. The speed makes it easier to work with limit orders instead of reaching for market — and that means lower fees when it counts. Save your setups as shortcuts and execute them with one keystroke.</p>
         </section>
 
         <!-- Features -->
@@ -384,15 +384,15 @@
             <div class="feature-grid">
                 <div class="feature">
                     <h3>Chase Orders</h3>
-                    <p>Trailing limit orders that follow the bid/ask. Places at the front of the book and continuously adjusts as the market moves. You get filled at maker fees instead of crossing the spread.</p>
+                    <p>Trailing limit orders that follow the bid/ask. Sits at the front of the book and adjusts as the market moves — a way to get filled with limit orders when you'd otherwise market in.</p>
                 </div>
                 <div class="feature">
                     <h3>Split Orders</h3>
-                    <p>Distribute orders across a price range. Scale into positions or set layered take-profits. Supports linear weighting (scale 1 to 3) for bottom-heavy or top-heavy fills.</p>
+                    <p>Scale into positions or set layered take-profits with a single command. Set your range, size, and weighting — no dragging sliders or clicking through menus.</p>
                 </div>
                 <div class="feature">
                     <h3>Variables & Expressions</h3>
-                    <p>Use lastprice, bidprice, askprice, mark, possize, margin, entry in your commands. Math works too: @lastprice-50, @entry+2%, 100%margin.</p>
+                    <p>Use lastprice, bidprice, askprice, markprice, possize, margin, entry in your commands. Math works too: lastprice-50, entry+2%, 100%margin.</p>
                 </div>
                 <div class="feature">
                     <h3>Command Chaining</h3>
@@ -400,16 +400,12 @@
                 </div>
                 <div class="feature">
                     <h3>Shortcuts</h3>
-                    <p>Bind complex commands to single keys. shortcut q split buy 44%margin from bidprice to bidprice-0.5%. Saved across sessions in startup.txt.</p>
-                </div>
-                <div class="feature">
-                    <h3>Reprice</h3>
-                    <p>Shift all resting orders by percentage. bump +0.5% moves bids up and asks down. Keep your orders competitive without manual repricing.</p>
+                    <p>Bind complex commands to single keys. sc q split buy 44%margin from bidprice to bidprice-0.5%. Saved across sessions in startup.txt.</p>
                 </div>
             </div>
 
-            <h3 style="margin-top: 2rem;">Maker-first by default</h3>
-            <p>All limit orders default to post-only (ALO) — you always pay maker fees instead of taker. On Hyperliquid, that's 0.015% vs 0.045%. Taker fees are 3x higher.</p>
+            <h3 style="margin-top: 2rem;">Easier to stay maker</h3>
+            <p>Limit orders default to post-only (ALO), so they won't accidentally cross the spread. Features like chase orders make limit orders practical in fast-moving markets where you'd otherwise just hit market. On Hyperliquid, maker fees are 0.015% vs 0.045% taker.</p>
 
             <table class="fee-table">
                 <thead>
@@ -452,8 +448,8 @@
             <div class="terminal">
                 <code><span class="prompt">BTC&gt;</span> <span class="cmd">buy 0.01</span>                     <span class="comment"># market buy</span></code>
                 <code><span class="prompt">BTC&gt;</span> <span class="cmd">buy $500</span>                    <span class="comment"># buy $500 worth at market</span></code>
-                <code><span class="prompt">BTC&gt;</span> <span class="cmd">sell 0.01 @105000</span>           <span class="comment"># limit sell at $105k</span></code>
-                <code><span class="prompt">BTC&gt;</span> <span class="cmd">buy 0.01 @lastprice-50</span>      <span class="comment"># limit buy $50 below current</span></code>
+                <code><span class="prompt">BTC&gt;</span> <span class="cmd">sell 0.01 105000</span>            <span class="comment"># limit sell at $105k</span></code>
+                <code><span class="prompt">BTC&gt;</span> <span class="cmd">buy 0.01 lastprice-50</span>       <span class="comment"># limit buy $50 below current</span></code>
             </div>
 
             <h3>Position management</h3>
@@ -461,7 +457,7 @@
                 <code><span class="prompt">BTC&gt;</span> <span class="cmd">stop 95000</span>                  <span class="comment"># stop loss at $95k</span></code>
                 <code><span class="prompt">BTC&gt;</span> <span class="cmd">tp 110000</span>                   <span class="comment"># take profit at $110k</span></code>
                 <code><span class="prompt">BTC&gt;</span> <span class="cmd">close</span>                       <span class="comment"># close entire position</span></code>
-                <code><span class="prompt">BTC&gt;</span> <span class="cmd">close 50%</span>                   <span class="comment"># close half</span></code>
+                <code><span class="prompt">BTC&gt;</span> <span class="cmd">reduce 50%</span>                  <span class="comment"># reduce position by half</span></code>
             </div>
 
             <h3>Chase orders</h3>
@@ -488,7 +484,7 @@
                 <code><span class="prompt">BTC&gt;</span> <span class="cmd">chase buy 0.1, wait pos, stop 90000, tp 110000</span></code>
                 <code></code>
                 <code><span class="comment"># Stop and TP in parallel</span></code>
-                <code><span class="prompt">BTC&gt;</span> <span class="cmd">buy 0.1 @95000, wait pos, stop 90000; tp 110000</span></code>
+                <code><span class="prompt">BTC&gt;</span> <span class="cmd">buy 0.1 95000, wait pos, stop 90000; tp 110000</span></code>
             </div>
 
             <h3>Shortcuts</h3>
@@ -508,15 +504,21 @@
             <h2>How It Works</h2>
             <div class="steps">
                 <div class="step">
-                    <h3>Download</h3>
-                    <p>Get the CLI and install dependencies.</p>
+                    <h3>1. Pay</h3>
+                    <p>Send $20 USDC on Arbitrum. Enter your email and wallet address, then pay.</p>
+                </div>
+                <div class="step">
+                    <h3>2. Download</h3>
+                    <p>Receive your license key and download link via email.</p>
                     <div class="terminal">
-                        <code>pip install hyperliquid-python-sdk prompt_toolkit eth-account</code>
+                        <code>./hl-cli</code>
+                        <code>Enter license key: hl1_xxxxx_xxxxx</code>
+                        <code>License activated!</code>
                     </div>
                 </div>
                 <div class="step">
-                    <h3>Configure</h3>
-                    <p>Add your Hyperliquid wallet address and private key to config.json.</p>
+                    <h3>3. Configure</h3>
+                    <p>Add your Hyperliquid API key to config.json.</p>
                     <div class="terminal">
                         <code>{</code>
                         <code>  "account_address": "0xYour...",</code>
@@ -526,11 +528,9 @@
                     </div>
                 </div>
                 <div class="step">
-                    <h3>Trade</h3>
+                    <h3>4. Trade</h3>
                     <p>Run the CLI and start executing.</p>
                     <div class="terminal">
-                        <code>python main.py</code>
-                        <code></code>
                         <code><span class="prompt">BTC&gt;</span> <span class="cmd">buy 0.01</span></code>
                     </div>
                 </div>
@@ -542,20 +542,20 @@
             <h2>Requirements</h2>
             <div class="req-grid">
                 <div class="req-item">
-                    <div class="label">Runtime</div>
-                    <div class="value">Python 3.10+</div>
-                </div>
-                <div class="req-item">
                     <div class="label">Exchange</div>
                     <div class="value">Hyperliquid account</div>
                 </div>
                 <div class="req-item">
                     <div class="label">Auth</div>
-                    <div class="value">Wallet private key</div>
+                    <div class="value">Hyperliquid API key</div>
                 </div>
                 <div class="req-item">
                     <div class="label">OS</div>
                     <div class="value">Windows / Mac / Linux</div>
+                </div>
+                <div class="req-item">
+                    <div class="label">Payment</div>
+                    <div class="value">USDC on Arbitrum</div>
                 </div>
             </div>
         </section>
@@ -581,7 +581,7 @@
 
             <div class="faq-item">
                 <div class="faq-q">Can I test without real money?</div>
-                <div class="faq-a">Yes. Run with --testnet to use Hyperliquid's testnet. You need a wallet that has deposited on mainnet before — register on testnet.hyperliquid.xyz with that wallet, claim test funds, then trade with fake money.</div>
+                <div class="faq-a">Yes. Use the --testnet flag to connect to Hyperliquid's testnet. You'll need to set up a separate API key in the testnet environment at testnet.hyperliquid.xyz, then claim test funds to trade with.</div>
             </div>
 
 
@@ -591,9 +591,11 @@
         <section>
             <h2>Pricing</h2>
             <div class="pricing">
-                <div class="price">$10/month</div>
-                <div class="price-note">Beta pricing. Subject to change.</div>
+                <div class="price">$20</div>
+                <div class="price-note">One-time payment. 3 months beta access.</div>
+                <div class="price-note" style="margin-top: 0.5rem; font-size: 0.8rem;">Pay with USDC on Arbitrum. You'll automatically receive your license and download link by email after payment.</div>
                 <a href="https://tally.so/r/gDG9RM" class="cta">Join Waitlist</a>
+                <p style="color: #666; font-size: 0.75rem; margin-top: 1rem;">Beta sales open soon. Join the waitlist to get notified.</p>
             </div>
         </section>
 
