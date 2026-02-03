@@ -280,10 +280,42 @@
             padding: 1.5rem;
         }
 
-        .price {
-            font-size: 1.5rem;
+        .tier-grid {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tier-card {
+            flex: 1;
+            background: #0a0a0a;
+            border: 1px solid #222;
+            border-radius: 4px;
+            padding: 1.25rem;
+            text-align: center;
+        }
+
+        .tier-label {
+            color: #666;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .tier-price {
             color: #fff;
-            margin-bottom: 0.25rem;
+            font-size: 1.5rem;
+            margin: 0.5rem 0;
+        }
+
+        .tier-period {
+            color: #666;
+            font-size: 0.8rem;
+        }
+
+        .tier-save {
+            color: #4ec9b0;
+            font-size: 0.8rem;
         }
 
         .price-note {
@@ -346,6 +378,10 @@
 
             .req-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .tier-grid {
+                flex-direction: column;
             }
 
             .fee-table {
@@ -504,11 +540,11 @@
             <h2>How It Works</h2>
             <div class="steps">
                 <div class="step">
-                    <h3>1. Pay</h3>
-                    <p>Send $20 USDC on Arbitrum. Enter your email and wallet address, then pay.</p>
+                    <h3>Pay</h3>
+                    <p>Choose your plan and send USDC on Arbitrum.</p>
                 </div>
                 <div class="step">
-                    <h3>2. Download</h3>
+                    <h3>Download</h3>
                     <p>Receive your license key and download link via email.</p>
                     <div class="terminal">
                         <code>./hl-cli</code>
@@ -517,18 +553,19 @@
                     </div>
                 </div>
                 <div class="step">
-                    <h3>3. Configure</h3>
-                    <p>Add your Hyperliquid API key to config.json.</p>
+                    <h3>Configure</h3>
+                    <p>Enter your Hyperliquid API credentials on first launch.</p>
                     <div class="terminal">
-                        <code>{</code>
-                        <code>  "account_address": "0xYour...",</code>
-                        <code>  "secret_key": "0xYour...",</code>
-                        <code>  "network": "mainnet"</code>
-                        <code>}</code>
+                        <code>Connecting to Hyperliquid (mainnet)...</code>
+                        <code></code>
+                        <code>  Wallet address: 0xYour...</code>
+                        <code>  API secret key: 0xYour...</code>
+                        <code></code>
+                        <code>Credentials saved to config.json</code>
                     </div>
                 </div>
                 <div class="step">
-                    <h3>4. Trade</h3>
+                    <h3>Trade</h3>
                     <p>Run the CLI and start executing.</p>
                     <div class="terminal">
                         <code><span class="prompt">BTC&gt;</span> <span class="cmd">buy 0.01</span></code>
@@ -551,7 +588,7 @@
                 </div>
                 <div class="req-item">
                     <div class="label">OS</div>
-                    <div class="value">Windows / Mac / Linux</div>
+                    <div class="value">Windows / macOS</div>
                 </div>
                 <div class="req-item">
                     <div class="label">Payment</div>
@@ -584,18 +621,40 @@
                 <div class="faq-a">Yes. Use the --testnet flag to connect to Hyperliquid's testnet. You'll need to set up a separate API key in the testnet environment at testnet.hyperliquid.xyz, then claim test funds to trade with.</div>
             </div>
 
-
         </section>
 
         <!-- Pricing -->
         <section>
             <h2>Pricing</h2>
             <div class="pricing">
-                <div class="price">$20</div>
-                <div class="price-note">One-time payment. 3 months beta access.</div>
-                <div class="price-note" style="margin-top: 0.5rem; font-size: 0.8rem;">Pay with USDC on Arbitrum. You'll automatically receive your license and download link by email after payment.</div>
-                <a href="https://tally.so/r/gDG9RM" class="cta">Join Waitlist</a>
-                <p style="color: #666; font-size: 0.75rem; margin-top: 1rem;">Beta sales open soon. Join the waitlist to get notified.</p>
+                <div class="tier-grid">
+                    <div class="tier-card">
+                        <div class="tier-label">Free</div>
+                        <div class="tier-price">$0</div>
+                        <div class="tier-period">0.05% fee per trade</div>
+                    </div>
+                    <div class="tier-card">
+                        <div class="tier-label">Monthly</div>
+                        <div class="tier-price">$25</div>
+                        <div class="tier-period">/month, no fee</div>
+                    </div>
+                    <div class="tier-card">
+                        <div class="tier-label">Quarterly</div>
+                        <div class="tier-price">$60</div>
+                        <div class="tier-save">Save 20%</div>
+                    </div>
+                    <div class="tier-card">
+                        <div class="tier-label">Annual</div>
+                        <div class="tier-price">$180</div>
+                        <div class="tier-save">Save 40%</div>
+                    </div>
+                </div>
+                <div class="price-note" style="margin-bottom: 1rem;">Free tier: download and trade immediately with a 0.05% builder fee on each order. Paid tiers: no builder fee, pay with USDC on Arbitrum.</div>
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <a href="https://pay.hl-cli.xyz/api/download/windows" class="cta">Download (Windows)</a>
+                    <a href="https://pay.hl-cli.xyz/api/download/mac" class="cta">Download (macOS)</a>
+                    <a href="https://pay.hl-cli.xyz" class="cta" style="background: transparent; border: 1px solid #4ec9b0;">Buy License</a>
+                </div>
             </div>
         </section>
 
