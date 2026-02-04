@@ -358,6 +358,14 @@
             opacity: 0.85;
         }
 
+        .cta-disabled {
+            background: #333;
+            color: #666;
+            pointer-events: none;
+            cursor: not-allowed;
+            border-color: #333;
+        }
+
         .contact {
             color: #666;
             font-size: 0.85rem;
@@ -669,10 +677,11 @@
                     </div>
                 </div>
                 <div class="price-note" style="margin-bottom: 1rem;">Free tier: download and trade immediately with a 0.05% builder fee on each order. Paid tiers: no builder fee, pay with USDC on Arbitrum.</div>
+                <div style="text-align: center; margin-bottom: 0.75rem; color: #888; font-size: 0.85rem;">Coming soon</div>
                 <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-                    <a href="https://pay.hl-cli.xyz/api/download/windows" class="cta">Download (Windows)</a>
-                    <a href="https://pay.hl-cli.xyz/api/download/mac" class="cta">Download (macOS)</a>
-                    <a href="https://pay.hl-cli.xyz" class="cta" style="background: transparent; border: 1px solid #4ec9b0;">Buy License</a>
+                    <span class="cta cta-disabled">Download (Windows)</span>
+                    <span class="cta cta-disabled">Download (macOS)</span>
+                    <span class="cta cta-disabled" style="background: transparent; border: 1px solid #333;">Buy License</span>
                 </div>
             </div>
         </section>
