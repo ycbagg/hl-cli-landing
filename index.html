@@ -121,28 +121,45 @@
             margin-right: 0.75rem;
         }
 
-        .feature-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
+        .hero-demo {
+            margin-bottom: 3rem;
         }
 
-        .feature {
+        .demo-video {
             background: #111;
             border: 1px solid #222;
             border-radius: 4px;
-            padding: 1.25rem;
+            overflow: hidden;
         }
 
-        .feature h3 {
-            margin-top: 0;
+        .demo-video video,
+        .demo-video img {
+            width: 100%;
+            display: block;
+        }
+
+        .demo-caption {
+            color: #666;
+            font-size: 0.8rem;
+            text-align: center;
+            padding: 0.75rem;
+            background: #111;
+            border-top: 1px solid #1a1a1a;
+        }
+
+        .demo-section {
+            margin-bottom: 2rem;
+        }
+
+        .demo-section h3 {
             color: #4ec9b0;
+            margin-top: 0;
         }
 
-        .feature p {
-            margin-bottom: 0;
+        .demo-section > p {
             color: #888;
             font-size: 0.85rem;
+            margin-bottom: 0.75rem;
         }
 
         /* Fee comparison table */
@@ -402,6 +419,19 @@
             <p class="tagline">Stop clicking. Start executing.</p>
         </header>
 
+        <!-- Hero demo -->
+        <section class="hero-demo">
+            <div class="demo-video">
+                <!-- Replace src with your recording -->
+                <video autoplay loop muted playsinline>
+                    <source src="demo.mp4" type="video/mp4">
+                </video>
+                <!-- OR for a GIF: <img src="demo.gif" alt="hl-cli demo"> -->
+                <!-- OR for asciinema: <script src="..."></script> -->
+                <div class="demo-caption">Chase order on BTC — filled at maker fees.</div>
+            </div>
+        </section>
+
         <!-- What it is -->
         <section>
             <h2>What it is</h2>
@@ -411,36 +441,96 @@
         <!-- Why -->
         <section>
             <h2>Why hl-cli</h2>
-            <p>Typing is faster than clicking through UI menus. hl-cli lets you place, modify, and manage orders in seconds — no tabs, no sliders, no confirmation dialogs. Every order type is a single command with full control over price, size, and execution. Build strategies the Hyperliquid UI doesn't support: trailing limits that follow the book, chained sequences that set stops and take-profits the moment you're filled. The speed makes it easier to work with limit orders instead of reaching for market — and that means lower fees when it counts. Save your setups as shortcuts and execute them with one keystroke.</p>
+            <p>Speed — single commands instead of clicking through menus.</p>
+            <p>Order types the UI doesn't support — trailing limits, chained stop+TP sequences, iceberg orders.</p>
+            <p>Lower fees — defaults to maker (ALO). Chase orders make limits practical in fast markets.</p>
+            <p>Shortcuts — save setups, execute with one keystroke.</p>
         </section>
 
-        <!-- Features -->
+        <!-- Feature Demos -->
         <section>
             <h2>Features</h2>
-            <div class="feature-grid">
-                <div class="feature">
-                    <h3>Chase Orders</h3>
-                    <p>Trailing limit orders that follow the bid/ask. Sits at the front of the book and adjusts as the market moves — a way to get filled with limit orders when you'd otherwise market in.</p>
-                </div>
-                <div class="feature">
-                    <h3>Split Orders</h3>
-                    <p>Scale into positions or set layered take-profits with a single command. Set your range, size, and weighting — no dragging sliders or clicking through menus.</p>
-                </div>
-                <div class="feature">
-                    <h3>Variables & Expressions</h3>
-                    <p>Use lastprice, bidprice, askprice, markprice, possize, margin, entry in your commands. Math works too: lastprice-50, entry+2%, 100%margin.</p>
-                </div>
-                <div class="feature">
-                    <h3>Command Chaining</h3>
-                    <p>Execute sequences: chase buy 0.1, wait pos, stop 90000, tp 110000. Use comma for serial, semicolon for parallel execution.</p>
-                </div>
-                <div class="feature">
-                    <h3>Shortcuts</h3>
-                    <p>Bind complex commands to single keys. sc q split buy 44%margin from bidprice to bidprice-0.5%. Saved across sessions in startup.txt.</p>
+
+            <div class="demo-section">
+                <h3>Chase Orders</h3>
+                <p>Trailing limit that follows BBO — get filled at maker fees instead of market.</p>
+                <div class="terminal">
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">chase buy 0.1</span>               <span class="comment"># chase at best bid (maker fees)</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">chase sell $500</span>              <span class="comment"># chase $500 worth at best ask</span></code>
                 </div>
             </div>
 
-            <h3 style="margin-top: 2rem;">Easier to stay maker</h3>
+            <div class="demo-section">
+                <h3>Split Orders</h3>
+                <p>Scale in or ladder take-profits across a price range with one command.</p>
+                <div class="terminal">
+                    <code><span class="comment"># Scale entry: buy across 2% range below market</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">split buy 100%margin from bidprice to bidprice-2%</span></code>
+                    <code></code>
+                    <code><span class="comment"># Scale TP: sell position across 3% range (reduce-only)</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">split sell 100%possize from entry to entry+3% ro</span></code>
+                    <code></code>
+                    <code><span class="comment"># Weighted: more size at bottom (scale 1 to 3)</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">split buy 44%margin from bidprice to bidprice-1% scale 1 to 3</span></code>
+                </div>
+            </div>
+
+            <div class="demo-section">
+                <h3>Trailing Stop Loss</h3>
+                <p>Percentage-based trailing stop that follows the market and fires on reversal.</p>
+                <div class="terminal">
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">tsl 1%</span>                      <span class="comment"># trail 1% from high/low</span></code>
+                </div>
+            </div>
+
+            <div class="demo-section">
+                <h3>Iceberg Orders</h3>
+                <p>Drip-feed size at BBO in chunks — hide your full order from the book.</p>
+                <div class="terminal">
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">iceberg buy 1.0 0.1</span>          <span class="comment"># buy 1.0 in 0.1 chunks at BBO</span></code>
+                </div>
+            </div>
+
+            <div class="demo-section">
+                <h3>Command Chaining</h3>
+                <p>Chain entry + wait + stop + TP into a single line. Comma for serial, semicolon for parallel.</p>
+                <div class="terminal">
+                    <code><span class="comment"># Entry + stops in sequence</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">chase buy 0.1, wait pos, stop 90000, tp 110000</span></code>
+                    <code></code>
+                    <code><span class="comment"># Stop and TP in parallel</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">buy 0.1 95000, wait pos, stop 90000; tp 110000</span></code>
+                </div>
+            </div>
+
+            <div class="demo-section">
+                <h3>Shortcuts</h3>
+                <p>Bind complex strategies to single keys. Saved across sessions.</p>
+                <div class="terminal">
+                    <code><span class="comment"># Bind strategies to single keys</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">sc q split buy 44%margin from bidprice-0.01% to bidprice-0.45% scale 1 to 3</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">sc tpb split sell 80%possize from askprice+0.04% to askprice+0.16% ro</span></code>
+                    <code></code>
+                    <code><span class="comment"># Now just type:</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">q</span>                            <span class="comment"># scale-in at bid</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">tpb</span>                          <span class="comment"># TP ladder for longs</span></code>
+                </div>
+            </div>
+
+            <div class="demo-section">
+                <h3>Variables & Expressions</h3>
+                <p>Use lastprice, bidprice, possize, margin, entry — with math and % modifiers.</p>
+                <div class="terminal">
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">buy 0.01 lastprice-50</span>       <span class="comment"># limit buy $50 below current</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">buy $500</span>                    <span class="comment"># buy $500 worth at market</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">reduce 50%</span>                  <span class="comment"># reduce position by half</span></code>
+                </div>
+            </div>
+        </section>
+
+        <!-- Easier to stay maker -->
+        <section>
+            <h3>Easier to stay maker</h3>
             <p>Limit orders default to post-only (ALO), so they won't accidentally cross the spread. Features like chase orders make limit orders practical in fast-moving markets where you'd otherwise just hit market. On Hyperliquid, maker fees are 0.015% vs 0.045% taker.</p>
 
             <table class="fee-table">
@@ -476,81 +566,13 @@
             <p style="color: #666; font-size: 0.8rem;">At higher volume tiers, maker fees drop to 0%. Taker fees remain 0.045% until $1B+.</p>
         </section>
 
-        <!-- Commands -->
-        <section>
-            <h2>Example Commands</h2>
-            
-            <h3>Basic orders</h3>
-            <div class="terminal">
-                <code><span class="prompt">BTC&gt;</span> <span class="cmd">buy 0.01</span>                     <span class="comment"># market buy</span></code>
-                <code><span class="prompt">BTC&gt;</span> <span class="cmd">buy $500</span>                    <span class="comment"># buy $500 worth at market</span></code>
-                <code><span class="prompt">BTC&gt;</span> <span class="cmd">sell 0.01 105000</span>            <span class="comment"># limit sell at $105k</span></code>
-                <code><span class="prompt">BTC&gt;</span> <span class="cmd">buy 0.01 lastprice-50</span>       <span class="comment"># limit buy $50 below current</span></code>
-            </div>
-
-            <h3>Position management</h3>
-            <div class="terminal">
-                <code><span class="prompt">BTC&gt;</span> <span class="cmd">stop 95000</span>                  <span class="comment"># stop loss at $95k</span></code>
-                <code><span class="prompt">BTC&gt;</span> <span class="cmd">tp 110000</span>                   <span class="comment"># take profit at $110k</span></code>
-                <code><span class="prompt">BTC&gt;</span> <span class="cmd">close</span>                       <span class="comment"># close entire position</span></code>
-                <code><span class="prompt">BTC&gt;</span> <span class="cmd">reduce 50%</span>                  <span class="comment"># reduce position by half</span></code>
-            </div>
-
-            <h3>Chase orders</h3>
-            <div class="terminal">
-                <code><span class="prompt">BTC&gt;</span> <span class="cmd">chase buy 0.1</span>               <span class="comment"># chase at best bid (maker fees)</span></code>
-                <code><span class="prompt">BTC&gt;</span> <span class="cmd">chase sell $500</span>              <span class="comment"># chase $500 worth at best ask</span></code>
-            </div>
-
-            <h3>Split orders</h3>
-            <div class="terminal">
-                <code><span class="comment"># Scale entry: buy across 2% range below market</span></code>
-                <code><span class="prompt">BTC&gt;</span> <span class="cmd">split buy 100%margin from bidprice to bidprice-2%</span></code>
-                <code></code>
-                <code><span class="comment"># Scale TP: sell position across 3% range (reduce-only)</span></code>
-                <code><span class="prompt">BTC&gt;</span> <span class="cmd">split sell 100%possize from entry to entry+3% ro</span></code>
-                <code></code>
-                <code><span class="comment"># Weighted: more size at bottom (scale 1 to 3)</span></code>
-                <code><span class="prompt">BTC&gt;</span> <span class="cmd">split buy 44%margin from bidprice to bidprice-1% scale 1 to 3</span></code>
-            </div>
-
-            <h3>Chaining</h3>
-            <div class="terminal">
-                <code><span class="comment"># Entry + stops in sequence</span></code>
-                <code><span class="prompt">BTC&gt;</span> <span class="cmd">chase buy 0.1, wait pos, stop 90000, tp 110000</span></code>
-                <code></code>
-                <code><span class="comment"># Stop and TP in parallel</span></code>
-                <code><span class="prompt">BTC&gt;</span> <span class="cmd">buy 0.1 95000, wait pos, stop 90000; tp 110000</span></code>
-            </div>
-
-            <h3>Shortcuts</h3>
-            <div class="terminal">
-                <code><span class="comment"># Bind strategies to single keys</span></code>
-                <code><span class="prompt">BTC&gt;</span> <span class="cmd">sc q split buy 44%margin from bidprice-0.01% to bidprice-0.45% scale 1 to 3</span></code>
-                <code><span class="prompt">BTC&gt;</span> <span class="cmd">sc tpb split sell 80%possize from askprice+0.04% to askprice+0.16% ro</span></code>
-                <code></code>
-                <code><span class="comment"># Now just type:</span></code>
-                <code><span class="prompt">BTC&gt;</span> <span class="cmd">q</span>                            <span class="comment"># scale-in at bid</span></code>
-                <code><span class="prompt">BTC&gt;</span> <span class="cmd">tpb</span>                          <span class="comment"># TP ladder for longs</span></code>
-            </div>
-        </section>
-
         <!-- How it works -->
         <section>
             <h2>How It Works</h2>
             <div class="steps">
                 <div class="step">
-                    <h3>Pay</h3>
-                    <p>Choose your plan and send USDC on Arbitrum.</p>
-                </div>
-                <div class="step">
                     <h3>Download</h3>
-                    <p>Receive your license key and download link via email.</p>
-                    <div class="terminal">
-                        <code>./hl-cli</code>
-                        <code>Enter license key: hl1_xxxxx_xxxxx</code>
-                        <code>License activated!</code>
-                    </div>
+                    <p>Download for Windows or macOS. Free to use — no account needed.</p>
                 </div>
                 <div class="step">
                     <h3>Configure</h3>
@@ -566,7 +588,7 @@
                 </div>
                 <div class="step">
                     <h3>Trade</h3>
-                    <p>Run the CLI and start executing.</p>
+                    <p>Start executing. Free tier includes a 0.05% builder fee. Enter a license key to remove it.</p>
                     <div class="terminal">
                         <code><span class="prompt">BTC&gt;</span> <span class="cmd">buy 0.01</span></code>
                     </div>
@@ -592,7 +614,7 @@
                 </div>
                 <div class="req-item">
                     <div class="label">Payment</div>
-                    <div class="value">USDC on Arbitrum</div>
+                    <div class="value">USDC on Arbitrum (paid tiers)</div>
                 </div>
             </div>
         </section>
@@ -616,11 +638,6 @@
                 <div class="faq-a">ALO (post-only) orders are rejected if they would cross the spread. This is by design — it ensures you're paying maker fees, not taker. Market orders and immediate-or-cancel orders still work normally for when you need the certainty of an instant fill.</div>
             </div>
 
-            <div class="faq-item">
-                <div class="faq-q">Can I test without real money?</div>
-                <div class="faq-a">Yes. Use the --testnet flag to connect to Hyperliquid's testnet. You'll need to set up a separate API key in the testnet environment at testnet.hyperliquid.xyz, then claim test funds to trade with.</div>
-            </div>
-
         </section>
 
         <!-- Pricing -->
@@ -634,18 +651,20 @@
                         <div class="tier-period">0.05% fee per trade</div>
                     </div>
                     <div class="tier-card">
-                        <div class="tier-label">Monthly</div>
+                        <div class="tier-label">30 Days</div>
                         <div class="tier-price">$25</div>
-                        <div class="tier-period">/month, no fee</div>
+                        <div class="tier-period">0% trading fee</div>
                     </div>
                     <div class="tier-card">
-                        <div class="tier-label">Quarterly</div>
+                        <div class="tier-label">90 Days</div>
                         <div class="tier-price">$60</div>
+                        <div class="tier-period">0% trading fee</div>
                         <div class="tier-save">Save 20%</div>
                     </div>
                     <div class="tier-card">
-                        <div class="tier-label">Annual</div>
+                        <div class="tier-label">365 Days</div>
                         <div class="tier-price">$180</div>
+                        <div class="tier-period">0% trading fee</div>
                         <div class="tier-save">Save 40%</div>
                     </div>
                 </div>
