@@ -485,9 +485,10 @@
 
             <div class="demo-section">
                 <h3>Trailing Stop Loss</h3>
-                <p>Percentage-based trailing stop that follows the market and fires on reversal.</p>
+                <p>Places real exchange stop orders — survives CLI disconnection.</p>
                 <div class="terminal">
                     <code><span class="prompt">BTC&gt;</span> <span class="cmd">tsl 1%</span>                      <span class="comment"># trail 1% from high/low</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">tsl 0.3%</span>                    <span class="comment"># tight trail for scalping</span></code>
                 </div>
             </div>
 
@@ -495,7 +496,8 @@
                 <h3>Iceberg Orders</h3>
                 <p>Drip-feed size at BBO in chunks — hide your full order from the book.</p>
                 <div class="terminal">
-                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">iceberg buy 1.0 0.1</span>          <span class="comment"># buy 1.0 in 0.1 chunks at BBO</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">iceberg buy 1.0 show 0.1</span>     <span class="comment"># buy 1.0 in 0.1 chunks at BBO</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">iceberg buy 1.0 show 0.1 95000</span> <span class="comment"># with limit price</span></code>
                 </div>
             </div>
 
@@ -503,23 +505,33 @@
                 <h3>Command Chaining</h3>
                 <p>Chain entry + wait + stop + TP into a single line. Comma for serial, semicolon for parallel.</p>
                 <div class="terminal">
-                    <code><span class="comment"># Entry + stops in sequence</span></code>
-                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">chase buy 0.1, wait pos, stop 90000, tp 110000</span></code>
+                    <code><span class="comment"># Chase entry → auto stop/TP at % from fill</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">chase buy 0.1, wait pos, stop entry-2%; tp entry+4%</span></code>
                     <code></code>
-                    <code><span class="comment"># Stop and TP in parallel</span></code>
-                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">buy 0.1 95000, wait pos, stop 90000; tp 110000</span></code>
+                    <code><span class="comment"># Iceberg entry → trailing stop on fill</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">iceberg buy 0.5 show 0.05, wait pos, tsl 1%</span></code>
+                    <code></code>
+                    <code><span class="comment"># Wait for spread → chase → trail</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">wait spread > 2.0, chase buy $200, wait pos, tsl 0.5%</span></code>
+                    <code></code>
+                    <code><span class="comment"># Take profit → wait → tighten trail</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">wait pnlpct > 1, reduce 50%, wait 2, tsl 0.3%</span></code>
                 </div>
             </div>
 
             <div class="demo-section">
                 <h3>Shortcuts</h3>
-                <p>Bind complex strategies to single keys. Saved across sessions.</p>
+                <p>Bind complex strategies to single keys. Supports {1}, {2} parameters. Saved across sessions.</p>
                 <div class="terminal">
                     <code><span class="comment"># Bind strategies to single keys</span></code>
                     <code><span class="prompt">BTC&gt;</span> <span class="cmd">sc q split buy 44%margin from bidprice-0.01% to bidprice-0.45% scale 1 to 3</span></code>
                     <code><span class="prompt">BTC&gt;</span> <span class="cmd">sc tpb split sell 80%possize from askprice+0.04% to askprice+0.16% ro</span></code>
                     <code></code>
-                    <code><span class="comment"># Now just type:</span></code>
+                    <code><span class="comment"># Parameterized: full trade macro with stop/TP %</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">sc go chase buy {1}, wait pos, stop entry-{2}; tp entry+{3}</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">go 0.1 2% 4%</span>                <span class="comment"># buy 0.1, stop -2%, TP +4%</span></code>
+                    <code></code>
+                    <code><span class="comment"># Simple shortcuts:</span></code>
                     <code><span class="prompt">BTC&gt;</span> <span class="cmd">q</span>                            <span class="comment"># scale-in at bid</span></code>
                     <code><span class="prompt">BTC&gt;</span> <span class="cmd">tpb</span>                          <span class="comment"># TP ladder for longs</span></code>
                 </div>
@@ -534,44 +546,15 @@
                     <code><span class="prompt">BTC&gt;</span> <span class="cmd">reduce 50%</span>                  <span class="comment"># reduce position by half</span></code>
                 </div>
             </div>
-        </section>
-
-        <!-- Easier to stay maker -->
-        <section>
-            <h3>Easier to stay maker</h3>
-            <p>Limit orders default to post-only (ALO), so they won't accidentally cross the spread. Features like chase orders make limit orders practical in fast-moving markets where you'd otherwise just hit market. On Hyperliquid, maker fees are 0.015% vs 0.045% taker.</p>
-
-            <table class="fee-table">
-                <thead>
-                    <tr>
-                        <th>Monthly Volume</th>
-                        <th>Taker Fees (0.045%)</th>
-                        <th>Maker Fees (0.015%)</th>
-                        <th>You Save</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>$100,000</td>
-                        <td class="taker">$45</td>
-                        <td>$15</td>
-                        <td class="savings">$30/mo</td>
-                    </tr>
-                    <tr>
-                        <td>$500,000</td>
-                        <td class="taker">$225</td>
-                        <td>$75</td>
-                        <td class="savings">$150/mo</td>
-                    </tr>
-                    <tr>
-                        <td>$1,000,000</td>
-                        <td class="taker">$450</td>
-                        <td>$150</td>
-                        <td class="savings">$300/mo</td>
-                    </tr>
-                </tbody>
-            </table>
-            <p style="color: #666; font-size: 0.8rem;">At higher volume tiers, maker fees drop to 0%. Taker fees remain 0.045% until $1B+.</p>
+            <div class="demo-section">
+                <h3>Wait Conditions</h3>
+                <p>WebSocket-powered triggers with sub-second reaction. Block until condition is met, then continue the chain.</p>
+                <div class="terminal">
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">wait price > 100000, buy 0.1</span>       <span class="comment"># price trigger</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">wait spread > 2.0, chase buy $200</span>  <span class="comment"># spread trigger</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">wait pnlpct > 1, reduce 50%</span>        <span class="comment"># PnL trigger</span></code>
+                </div>
+            </div>
         </section>
 
         <!-- How it works -->
@@ -596,7 +579,7 @@
                 </div>
                 <div class="step">
                     <h3>Trade</h3>
-                    <p>Start executing. Free tier includes a 0.05% builder fee. Enter a license key to remove it.</p>
+                    <p>Start executing. 0.01% builder fee on each order.</p>
                     <div class="terminal">
                         <code><span class="prompt">BTC&gt;</span> <span class="cmd">buy 0.01</span></code>
                     </div>
@@ -619,10 +602,6 @@
                 <div class="req-item">
                     <div class="label">OS</div>
                     <div class="value">Windows / macOS</div>
-                </div>
-                <div class="req-item">
-                    <div class="label">Payment</div>
-                    <div class="value">USDC on Arbitrum (paid tiers)</div>
                 </div>
             </div>
         </section>
@@ -656,32 +635,13 @@
                     <div class="tier-card">
                         <div class="tier-label">Free</div>
                         <div class="tier-price">$0</div>
-                        <div class="tier-period">0.05% fee per trade</div>
-                    </div>
-                    <div class="tier-card">
-                        <div class="tier-label">30 Days</div>
-                        <div class="tier-price">$25</div>
-                        <div class="tier-period">0% trading fee</div>
-                    </div>
-                    <div class="tier-card">
-                        <div class="tier-label">90 Days</div>
-                        <div class="tier-price">$60</div>
-                        <div class="tier-period">0% trading fee</div>
-                        <div class="tier-save">Save 20%</div>
-                    </div>
-                    <div class="tier-card">
-                        <div class="tier-label">365 Days</div>
-                        <div class="tier-price">$180</div>
-                        <div class="tier-period">0% trading fee</div>
-                        <div class="tier-save">Save 40%</div>
+                        <div class="tier-period">0.01% builder fee per order</div>
                     </div>
                 </div>
-                <div class="price-note" style="margin-bottom: 1rem;">Free tier: download and trade immediately with a 0.05% builder fee on each order. Paid tiers: no builder fee, pay with USDC on Arbitrum.</div>
                 <div style="text-align: center; margin-bottom: 0.75rem; color: #888; font-size: 0.85rem;">Coming soon</div>
                 <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
                     <span class="cta cta-disabled">Download (Windows)</span>
                     <span class="cta cta-disabled">Download (macOS)</span>
-                    <span class="cta cta-disabled" style="background: transparent; border: 1px solid #333;">Buy License</span>
                 </div>
             </div>
         </section>
