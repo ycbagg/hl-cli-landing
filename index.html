@@ -121,24 +121,25 @@
             margin-right: 0.75rem;
         }
 
+        /* Hero */
         .hero-demo {
             margin-bottom: 3rem;
         }
 
-        .demo-video {
+        .hero-media {
             background: #111;
             border: 1px solid #222;
             border-radius: 4px;
             overflow: hidden;
         }
 
-        .demo-video video,
-        .demo-video img {
+        .hero-media video,
+        .hero-media img {
             width: 100%;
             display: block;
         }
 
-        .demo-caption {
+        .hero-caption {
             color: #666;
             font-size: 0.8rem;
             text-align: center;
@@ -147,8 +148,17 @@
             border-top: 1px solid #1a1a1a;
         }
 
+        /* Feature demos */
         .demo-section {
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
+            padding-bottom: 2.5rem;
+            border-bottom: 1px solid #1a1a1a;
+        }
+
+        .demo-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
         }
 
         .demo-section h3 {
@@ -160,6 +170,45 @@
             color: #888;
             font-size: 0.85rem;
             margin-bottom: 0.75rem;
+        }
+
+        /* Visual placeholder for demo gifs/videos */
+        .demo-media {
+            background: #0d0d0d;
+            border: 1px dashed #333;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .demo-media img,
+        .demo-media video {
+            width: 100%;
+            display: block;
+        }
+
+        .demo-media .placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 160px;
+            color: #333;
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
+        }
+
+        .demo-media .placeholder::before {
+            content: "▶ ";
+            color: #333;
+        }
+
+        .demo-media-caption {
+            color: #555;
+            font-size: 0.75rem;
+            text-align: center;
+            padding: 0.5rem;
+            border-top: 1px solid #1a1a1a;
         }
 
         /* Fee comparison table */
@@ -289,6 +338,12 @@
             margin-top: 0.25rem;
         }
 
+        .req-item .detail {
+            color: #666;
+            font-size: 0.8rem;
+            margin-top: 0.25rem;
+        }
+
         /* Pricing */
         .pricing {
             background: #111;
@@ -388,6 +443,39 @@
             font-size: 0.8rem;
         }
 
+        /* Feature grid for compact features */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .feature-card {
+            background: #111;
+            border: 1px solid #222;
+            border-radius: 4px;
+            padding: 1rem;
+        }
+
+        .feature-card h4 {
+            color: #4ec9b0;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.35rem;
+        }
+
+        .feature-card p {
+            color: #888;
+            font-size: 0.8rem;
+            margin-bottom: 0;
+        }
+
+        .feature-card code {
+            color: #aaa;
+            font-size: 0.8rem;
+        }
+
         @media (max-width: 600px) {
             body {
                 padding: 1.5rem;
@@ -401,7 +489,8 @@
                 font-size: 0.75rem;
             }
 
-            .req-grid {
+            .req-grid,
+            .feature-grid {
                 grid-template-columns: 1fr;
             }
 
@@ -417,6 +506,10 @@
             .fee-table td {
                 padding: 0.5rem;
             }
+
+            .demo-media .placeholder {
+                height: 120px;
+            }
         }
     </style>
 </head>
@@ -427,50 +520,59 @@
             <p class="tagline">Stop clicking. Start executing.</p>
         </header>
 
-        <!-- Hero demo -->
+        <!-- Hero -->
         <section class="hero-demo">
-            <div class="demo-video">
-                <!-- Replace src with your recording -->
-                <video autoplay loop muted playsinline>
-                    <source src="demo.mp4" type="video/mp4">
-                </video>
-                <!-- OR for a GIF: <img src="demo.gif" alt="hl-cli demo"> -->
-                <!-- OR for asciinema: <script src="..."></script> -->
-                <div class="demo-caption">Chase order on BTC — filled at maker fees.</div>
+            <div class="hero-media">
+                <!-- Replace with: <img src="hero.png"> or <video src="hero.mp4" autoplay loop muted playsinline> -->
+                <img src="hero.png" alt="hl-cli running ladder orders on HYPE alongside TradingView">
+                <div class="hero-caption">Ladder buy on HYPE — 21 orders placed, auto-repositioning on fill.</div>
             </div>
         </section>
 
         <!-- What it is -->
         <section>
             <h2>What it is</h2>
-            <p>A command-line trading interface for Hyperliquid perpetual futures. Built for traders who want speed, precision, and lower fees.</p>
+            <p>A command-line trading interface for Hyperliquid. Perps, HIP-3 equities, commodities, FX — all from your terminal. Built for traders who want speed, precision, and lower fees.</p>
         </section>
 
         <!-- Why -->
         <section>
             <h2>Why hl-cli</h2>
             <p>Speed — single commands instead of clicking through menus.</p>
-            <p>Order types the UI doesn't support — trailing limits, chained stop+TP sequences, iceberg orders.</p>
+            <p>Order types the UI doesn't support — trailing limits, chained stop+TP sequences, iceberg orders, TWAP, ladders.</p>
             <p>Lower fees — defaults to maker (ALO). Chase orders make limits practical in fast markets.</p>
+            <p>Basket trading — group instruments into indices, fan-out commands across all of them.</p>
+            <p>HIP-3 markets — trade equities, commodities, and FX perpetuals with the same commands.</p>
             <p>Shortcuts — save setups, execute with one keystroke.</p>
         </section>
 
-        <!-- Feature Demos -->
+        <!-- ==================== FEATURES ==================== -->
         <section>
             <h2>Features</h2>
 
+            <!-- Chase -->
             <div class="demo-section">
                 <h3>Chase Orders</h3>
                 <p>Trailing limit that follows BBO — get filled at maker fees instead of market.</p>
+                <div class="demo-media">
+                    <!-- Replace with: <img src="demos/chase.gif"> -->
+                    <div class="placeholder">demos/chase.gif</div>
+                </div>
                 <div class="terminal">
                     <code><span class="prompt">BTC&gt;</span> <span class="cmd">chase buy 0.1</span>               <span class="comment"># chase at best bid (maker fees)</span></code>
                     <code><span class="prompt">BTC&gt;</span> <span class="cmd">chase sell $500</span>              <span class="comment"># chase $500 worth at best ask</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">chase buy $200 dist 0.5%</span>     <span class="comment"># stay 0.5% behind BBO</span></code>
                 </div>
             </div>
 
+            <!-- Split -->
             <div class="demo-section">
                 <h3>Split Orders</h3>
-                <p>Scale in or ladder take-profits across a price range with one command.</p>
+                <p>Scale in or ladder take-profits across a price range with one command. Single bulk API call.</p>
+                <div class="demo-media">
+                    <!-- Replace with: <img src="demos/split.gif"> -->
+                    <div class="placeholder">demos/split.gif</div>
+                </div>
                 <div class="terminal">
                     <code><span class="comment"># Scale entry: buy across 2% range below market</span></code>
                     <code><span class="prompt">BTC&gt;</span> <span class="cmd">split buy 100%margin from bidprice to bidprice-2%</span></code>
@@ -483,27 +585,71 @@
                 </div>
             </div>
 
+            <!-- TSL -->
             <div class="demo-section">
                 <h3>Trailing Stop Loss</h3>
-                <p>Places real exchange stop orders — survives CLI disconnection.</p>
+                <p>Places real exchange stop orders that ratchet with price — survives CLI disconnection.</p>
+                <div class="demo-media">
+                    <!-- Replace with: <img src="demos/tsl.gif"> -->
+                    <div class="placeholder">demos/tsl.gif</div>
+                </div>
                 <div class="terminal">
                     <code><span class="prompt">BTC&gt;</span> <span class="cmd">tsl 1%</span>                      <span class="comment"># trail 1% from high/low</span></code>
                     <code><span class="prompt">BTC&gt;</span> <span class="cmd">tsl 0.3%</span>                    <span class="comment"># tight trail for scalping</span></code>
                 </div>
             </div>
 
+            <!-- Iceberg -->
             <div class="demo-section">
                 <h3>Iceberg Orders</h3>
                 <p>Drip-feed size at BBO in chunks — hide your full order from the book.</p>
+                <div class="demo-media">
+                    <!-- Replace with: <img src="demos/iceberg.gif"> -->
+                    <div class="placeholder">demos/iceberg.gif</div>
+                </div>
                 <div class="terminal">
-                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">iceberg buy 1.0 show 0.1</span>     <span class="comment"># buy 1.0 in 0.1 chunks at BBO</span></code>
-                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">iceberg buy 1.0 show 0.1 95000</span> <span class="comment"># with limit price</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">iceberg buy 1.0 show 0.1</span>              <span class="comment"># buy 1.0 in 0.1 chunks at BBO</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">iceberg buy 1.0 show 0.1 limit 95000</span>  <span class="comment"># with limit price cap</span></code>
                 </div>
             </div>
 
+            <!-- Ladder -->
+            <div class="demo-section">
+                <h3>Ladder Orders</h3>
+                <p>Stacked chase — limit orders spread across a range that ratchet with the market. Filled slots stay empty for natural DCA thinning.</p>
+                <div class="demo-media">
+                    <!-- Replace with: <img src="demos/ladder.gif"> -->
+                    <div class="placeholder">demos/ladder.gif</div>
+                </div>
+                <div class="terminal">
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">ladder buy 0.5 range 2%</span>               <span class="comment"># orders spread 2% below bid</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">ladder sell $500 range 1% scale 1 to 3</span> <span class="comment"># weighted ladder</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">ladder buy 0.5 range 2% limit 95000</span>    <span class="comment"># pin at price cap</span></code>
+                </div>
+            </div>
+
+            <!-- TWAP -->
+            <div class="demo-section">
+                <h3>TWAP</h3>
+                <p>Execute large orders in equal slices over time — minimize market impact.</p>
+                <div class="demo-media">
+                    <!-- Replace with: <img src="demos/twap.gif"> -->
+                    <div class="placeholder">demos/twap.gif</div>
+                </div>
+                <div class="terminal">
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">twap buy 1.0 over 30m</span>        <span class="comment"># spread 1.0 BTC over 30 minutes</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">twap sell $500 over 1h</span>       <span class="comment"># sell $500 over an hour</span></code>
+                </div>
+            </div>
+
+            <!-- Command Chaining -->
             <div class="demo-section">
                 <h3>Command Chaining</h3>
                 <p>Chain entry + wait + stop + TP into a single line. Comma for serial, semicolon for parallel.</p>
+                <div class="demo-media">
+                    <!-- Replace with: <img src="demos/chaining.gif"> -->
+                    <div class="placeholder">demos/chaining.gif</div>
+                </div>
                 <div class="terminal">
                     <code><span class="comment"># Chase entry → auto stop/TP at % from fill</span></code>
                     <code><span class="prompt">BTC&gt;</span> <span class="cmd">chase buy 0.1, wait pos, stop entry-2%; tp entry+4%</span></code>
@@ -519,9 +665,56 @@
                 </div>
             </div>
 
+            <!-- Index / Basket -->
+            <div class="demo-section">
+                <h3>Index / Basket Mode</h3>
+                <p>Group instruments into named indices. Commands fan out across all instruments automatically.</p>
+                <div class="demo-media">
+                    <!-- Replace with: <img src="demos/basket.gif"> -->
+                    <div class="placeholder">demos/basket.gif</div>
+                </div>
+                <div class="terminal">
+                    <code><span class="comment"># Create an index and switch to basket mode</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">index majors BTC ETH SOL</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">majors</span>                      <span class="comment"># enter basket mode</span></code>
+                    <code></code>
+                    <code><span class="comment"># Commands execute across all instruments</span></code>
+                    <code><span class="prompt">BTC/ETH/SOL&gt;</span> <span class="cmd">buy $300</span>            <span class="comment"># $100 per instrument</span></code>
+                    <code><span class="prompt">BTC/ETH/SOL&gt;</span> <span class="cmd">sell 50%possize</span>     <span class="comment"># 50% of each position</span></code>
+                    <code><span class="prompt">BTC/ETH/SOL&gt;</span> <span class="cmd">chase buy $600</span>      <span class="comment"># 3 chase threads, $200 each</span></code>
+                    <code><span class="prompt">BTC/ETH/SOL&gt;</span> <span class="cmd">position</span>            <span class="comment"># per-instrument + total PnL</span></code>
+                    <code></code>
+                    <code><span class="prompt">BTC/ETH/SOL&gt;</span> <span class="cmd">BTC</span>                 <span class="comment"># exit basket → single instrument</span></code>
+                </div>
+            </div>
+
+            <!-- HIP-3 -->
+            <div class="demo-section">
+                <h3>HIP-3 Markets</h3>
+                <p>Trade equities, commodities, and FX perpetuals. Just type the asset name — namespace auto-resolves.</p>
+                <div class="demo-media">
+                    <!-- Replace with: <img src="demos/hip3.gif"> -->
+                    <div class="placeholder">demos/hip3.gif</div>
+                </div>
+                <div class="terminal">
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">GOLD</span>                        <span class="comment"># switch to gold futures</span></code>
+                    <code><span class="prompt">GOLD&gt;</span> <span class="cmd">chase buy $200</span>             <span class="comment"># works with all order types</span></code>
+                    <code><span class="prompt">GOLD&gt;</span> <span class="cmd">tsl 1%</span>                     <span class="comment"># trailing stop on gold</span></code>
+                    <code></code>
+                    <code><span class="comment"># Create a HIP-3 basket</span></code>
+                    <code><span class="prompt">GOLD&gt;</span> <span class="cmd">index metals GOLD SILVER COPPER PLATINUM</span></code>
+                    <code><span class="prompt">GOLD&gt;</span> <span class="cmd">metals</span>                     <span class="comment"># basket mode for metals</span></code>
+                </div>
+            </div>
+
+            <!-- Shortcuts -->
             <div class="demo-section">
                 <h3>Shortcuts</h3>
                 <p>Bind complex strategies to single keys. Supports {1}, {2} parameters. Saved across sessions.</p>
+                <div class="demo-media">
+                    <!-- Replace with: <img src="demos/shortcuts.gif"> -->
+                    <div class="placeholder">demos/shortcuts.gif</div>
+                </div>
                 <div class="terminal">
                     <code><span class="comment"># Bind strategies to single keys</span></code>
                     <code><span class="prompt">BTC&gt;</span> <span class="cmd">sc q split buy 44%margin from bidprice-0.01% to bidprice-0.45% scale 1 to 3</span></code>
@@ -531,43 +724,59 @@
                     <code><span class="prompt">BTC&gt;</span> <span class="cmd">sc go chase buy {1}, wait pos, stop entry-{2}; tp entry+{3}</span></code>
                     <code><span class="prompt">BTC&gt;</span> <span class="cmd">go 0.1 2% 4%</span>                <span class="comment"># buy 0.1, stop -2%, TP +4%</span></code>
                     <code></code>
-                    <code><span class="comment"># Simple shortcuts:</span></code>
+                    <code><span class="comment"># Then just:</span></code>
                     <code><span class="prompt">BTC&gt;</span> <span class="cmd">q</span>                            <span class="comment"># scale-in at bid</span></code>
                     <code><span class="prompt">BTC&gt;</span> <span class="cmd">tpb</span>                          <span class="comment"># TP ladder for longs</span></code>
                 </div>
             </div>
 
-            <div class="demo-section">
-                <h3>Variables & Expressions</h3>
-                <p>Use lastprice, bidprice, possize, margin, entry — with math and % modifiers.</p>
-                <div class="terminal">
-                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">buy 0.01 lastprice-50</span>       <span class="comment"># limit buy $50 below current</span></code>
-                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">buy $500</span>                    <span class="comment"># buy $500 worth at market</span></code>
-                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">reduce 50%</span>                  <span class="comment"># reduce position by half</span></code>
+            <!-- Compact feature cards for the smaller features -->
+            <h3 style="color: #666; margin-top: 2rem; margin-bottom: 0;">And more</h3>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>Variables</h4>
+                    <p>lastprice, bidprice, askprice, markprice, possize, entry, balance, margin, spread, pnl, liqprice — with math and % modifiers.</p>
+                    <code>buy 0.01 lastprice-50</code>
                 </div>
-            </div>
-            <div class="demo-section">
-                <h3>Wait Conditions</h3>
-                <p>WebSocket-powered triggers with sub-second reaction. Block until condition is met, then continue the chain.</p>
-                <div class="terminal">
-                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">wait price > 100000, buy 0.1</span>       <span class="comment"># price trigger</span></code>
-                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">wait spread > 2.0, chase buy $200</span>  <span class="comment"># spread trigger</span></code>
-                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">wait pnlpct > 1, reduce 50%</span>        <span class="comment"># PnL trigger</span></code>
+                <div class="feature-card">
+                    <h4>Wait Conditions</h4>
+                    <p>WebSocket-powered price, spread, PnL, and position triggers. Chain with any command.</p>
+                    <code>wait spread > 2, chase buy $200</code>
+                </div>
+                <div class="feature-card">
+                    <h4>Move Orders</h4>
+                    <p>Shift all resting orders by percentage. Atomic cancel+replace — orders stay on book during move.</p>
+                    <code>move +0.5%</code>
+                </div>
+                <div class="feature-card">
+                    <h4>Session Stats</h4>
+                    <p>Live PnL, fill count, fees, buy/sell volume — per-instrument breakdown.</p>
+                    <code>stats</code>
+                </div>
+                <div class="feature-card">
+                    <h4>Nuke</h4>
+                    <p>Close all positions + cancel all orders in one command. Or just positions, or just orders.</p>
+                    <code>nuke</code>
+                </div>
+                <div class="feature-card">
+                    <h4>Fill Feed</h4>
+                    <p>Real-time fill notifications via WebSocket. Shows price, size, side, and PnL on each fill.</p>
+                    <code>feed on</code>
                 </div>
             </div>
         </section>
 
-        <!-- How it works -->
+        <!-- ==================== GETTING STARTED ==================== -->
         <section>
-            <h2>How It Works</h2>
+            <h2>Getting Started</h2>
             <div class="steps">
                 <div class="step">
                     <h3>Download</h3>
-                    <p>Download for Windows or macOS. Free to use — no account needed.</p>
+                    <p>Download for Windows or macOS. Single executable, no dependencies.</p>
                 </div>
                 <div class="step">
                     <h3>Configure</h3>
-                    <p>Enter your Hyperliquid API credentials on first launch.</p>
+                    <p>Enter your Hyperliquid wallet address and API key on first launch. Credentials are stored locally in config.json — never sent anywhere except to sign exchange messages.</p>
                     <div class="terminal">
                         <code>Connecting to Hyperliquid (mainnet)...</code>
                         <code></code>
@@ -579,7 +788,7 @@
                 </div>
                 <div class="step">
                     <h3>Trade</h3>
-                    <p>Start executing. 0.01% builder fee on each order.</p>
+                    <p>Start executing. All orders default to maker (ALO). 0.01% builder fee per order.</p>
                     <div class="terminal">
                         <code><span class="prompt">BTC&gt;</span> <span class="cmd">buy 0.01</span></code>
                     </div>
@@ -587,49 +796,72 @@
             </div>
         </section>
 
-        <!-- Requirements -->
+        <!-- ==================== REQUIREMENTS ==================== -->
         <section>
             <h2>Requirements</h2>
             <div class="req-grid">
                 <div class="req-item">
                     <div class="label">Exchange</div>
                     <div class="value">Hyperliquid account</div>
+                    <div class="detail">With USDC deposited</div>
                 </div>
                 <div class="req-item">
                     <div class="label">Auth</div>
-                    <div class="value">Hyperliquid API key</div>
+                    <div class="value">API wallet key</div>
+                    <div class="detail">Generate at app.hyperliquid.xyz</div>
                 </div>
                 <div class="req-item">
-                    <div class="label">OS</div>
+                    <div class="label">Platform</div>
                     <div class="value">Windows / macOS</div>
+                    <div class="detail">Standalone executable</div>
+                </div>
+                <div class="req-item">
+                    <div class="label">Network</div>
+                    <div class="value">Internet connection</div>
+                    <div class="detail">REST + WebSocket to Hyperliquid API</div>
                 </div>
             </div>
         </section>
 
-        <!-- FAQ -->
+        <!-- ==================== FAQ ==================== -->
         <section>
             <h2>FAQ</h2>
-            
+
             <div class="faq-item">
                 <div class="faq-q">Is my private key safe?</div>
-                <div class="faq-a">Your key stays on your machine. It's only used locally to sign transactions — it's never sent anywhere except to Hyperliquid's API as signed messages. Same as the official SDK.</div>
+                <div class="faq-a">Your key stays on your machine in config.json. It's only used locally to sign transactions — never sent anywhere except to Hyperliquid's API as signed messages. Same as the official SDK.</div>
             </div>
 
             <div class="faq-item">
-                <div class="faq-q">Can I use this with an API wallet?</div>
-                <div class="faq-a">Use your main Hyperliquid wallet address, not an API wallet. The account_address should be your main wallet; the private key can be from an API wallet if you've set one up, but the address must be the main one.</div>
+                <div class="faq-q">What credentials do I need?</div>
+                <div class="faq-a">Two things: your main Hyperliquid wallet address (the one with your funds), and a private key for signing orders. We recommend using an API wallet — generate one at app.hyperliquid.xyz under API settings. API wallets can only trade, not withdraw, so it's the standard best practice. Enter your main wallet address as "account address" and the API wallet private key as "secret key".</div>
             </div>
 
             <div class="faq-item">
                 <div class="faq-q">What happens if my order gets rejected?</div>
-                <div class="faq-a">ALO (post-only) orders are rejected if they would cross the spread. This is by design — it ensures you're paying maker fees, not taker. Market orders and immediate-or-cancel orders still work normally for when you need the certainty of an instant fill.</div>
+                <div class="faq-a">ALO (post-only) orders are rejected if they would cross the spread. This is by design — it ensures you're paying maker fees, not taker. Use market orders or the ioc flag when you need certainty of an instant fill.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-q">Does it support HIP-3 assets?</div>
+                <div class="faq-a">Yes. Just type the asset name — GOLD, TSLA, SPX, etc. The CLI auto-resolves the namespace. All order types work: chase, split, ladder, TSL, iceberg, TWAP. You can also create HIP-3 baskets with the index command.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-q">Can I trade multiple instruments at once?</div>
+                <div class="faq-a">Yes — create an index (e.g. index majors BTC ETH SOL) and switch to basket mode by typing the index name. All commands automatically fan out across every instrument in the group.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-q">What if the CLI disconnects during a trailing stop?</div>
+                <div class="faq-a">TSL places real stop orders on the exchange — they persist server-side. If the CLI crashes, the last stop level stays active on Hyperliquid. Your position is still protected.</div>
             </div>
 
         </section>
 
-        <!-- Pricing -->
+        <!-- ==================== PRICING + DOWNLOAD ==================== -->
         <section>
-            <h2>Pricing</h2>
+            <h2>Download</h2>
             <div class="pricing">
                 <div class="tier-grid">
                     <div class="tier-card">
@@ -646,7 +878,7 @@
             </div>
         </section>
 
-        <!-- Contact -->
+        <!-- ==================== CONTACT ==================== -->
         <section>
             <h2>Contact</h2>
             <p class="contact">
