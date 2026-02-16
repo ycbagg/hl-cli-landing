@@ -524,15 +524,15 @@
         <section class="hero-demo">
             <div class="hero-media">
                 <!-- Replace with: <img src="hero.png"> or <video src="hero.mp4" autoplay loop muted playsinline> -->
-                <img src="hero.png" alt="hl-cli running ladder orders on HYPE alongside TradingView">
-                <div class="hero-caption">Ladder buy on HYPE — 21 orders placed, auto-repositioning on fill.</div>
+                <div class="placeholder" style="height: 280px;">hero.png</div>
+                <div class="hero-caption">hl-cli in action</div>
             </div>
         </section>
 
         <!-- What it is -->
         <section>
             <h2>What it is</h2>
-            <p>A command-line trading interface for Hyperliquid. Perps, HIP-3 equities, commodities, FX — all from your terminal. Built for traders who want speed, precision, and lower fees.</p>
+            <p>A command-line trading interface for Hyperliquid. Perps, HIP-3 equities, commodities, FX — all from your terminal. Built for traders who want speed, precision, and advanced order types.</p>
         </section>
 
         <!-- Why -->
@@ -540,8 +540,7 @@
             <h2>Why hl-cli</h2>
             <p>Speed — single commands instead of clicking through menus.</p>
             <p>Order types the UI doesn't support — trailing limits, chained stop+TP sequences, iceberg orders, TWAP, ladders.</p>
-            <p>Lower fees — defaults to maker (ALO). Chase orders make limits practical in fast markets.</p>
-            <p>Basket trading — group instruments into indices, fan-out commands across all of them.</p>
+            <p>Index mode — group instruments into indices, fan-out commands across all of them.</p>
             <p>HIP-3 markets — trade equities, commodities, and FX perpetuals with the same commands.</p>
             <p>Shortcuts — save setups, execute with one keystroke.</p>
         </section>
@@ -568,7 +567,7 @@
             <!-- Split -->
             <div class="demo-section">
                 <h3>Split Orders</h3>
-                <p>Scale in or ladder take-profits across a price range with one command. Single bulk API call.</p>
+                <p>Scale in or distribute take-profits across a price range with one command.</p>
                 <div class="demo-media">
                     <!-- Replace with: <img src="demos/split.gif"> -->
                     <div class="placeholder">demos/split.gif</div>
@@ -588,7 +587,7 @@
             <!-- TSL -->
             <div class="demo-section">
                 <h3>Trailing Stop Loss</h3>
-                <p>Places real exchange stop orders that ratchet with price — survives CLI disconnection.</p>
+                <p>Exchange-side stop order that ratchets with price. Auto-detects long/short.</p>
                 <div class="demo-media">
                     <!-- Replace with: <img src="demos/tsl.gif"> -->
                     <div class="placeholder">demos/tsl.gif</div>
@@ -665,18 +664,18 @@
                 </div>
             </div>
 
-            <!-- Index / Basket -->
+            <!-- Index Mode -->
             <div class="demo-section">
-                <h3>Index / Basket Mode</h3>
+                <h3>Index Mode</h3>
                 <p>Group instruments into named indices. Commands fan out across all instruments automatically.</p>
                 <div class="demo-media">
-                    <!-- Replace with: <img src="demos/basket.gif"> -->
-                    <div class="placeholder">demos/basket.gif</div>
+                    <!-- Replace with: <img src="demos/index.gif"> -->
+                    <div class="placeholder">demos/index.gif</div>
                 </div>
                 <div class="terminal">
-                    <code><span class="comment"># Create an index and switch to basket mode</span></code>
+                    <code><span class="comment"># Create an index and enter index mode</span></code>
                     <code><span class="prompt">BTC&gt;</span> <span class="cmd">index majors BTC ETH SOL</span></code>
-                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">majors</span>                      <span class="comment"># enter basket mode</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">majors</span>                      <span class="comment"># enter index mode</span></code>
                     <code></code>
                     <code><span class="comment"># Commands execute across all instruments</span></code>
                     <code><span class="prompt">BTC/ETH/SOL&gt;</span> <span class="cmd">buy $300</span>            <span class="comment"># $100 per instrument</span></code>
@@ -684,7 +683,7 @@
                     <code><span class="prompt">BTC/ETH/SOL&gt;</span> <span class="cmd">chase buy $600</span>      <span class="comment"># 3 chase threads, $200 each</span></code>
                     <code><span class="prompt">BTC/ETH/SOL&gt;</span> <span class="cmd">position</span>            <span class="comment"># per-instrument + total PnL</span></code>
                     <code></code>
-                    <code><span class="prompt">BTC/ETH/SOL&gt;</span> <span class="cmd">BTC</span>                 <span class="comment"># exit basket → single instrument</span></code>
+                    <code><span class="prompt">BTC/ETH/SOL&gt;</span> <span class="cmd">BTC</span>                 <span class="comment"># exit to single instrument</span></code>
                 </div>
             </div>
 
@@ -700,10 +699,6 @@
                     <code><span class="prompt">BTC&gt;</span> <span class="cmd">GOLD</span>                        <span class="comment"># switch to gold futures</span></code>
                     <code><span class="prompt">GOLD&gt;</span> <span class="cmd">chase buy $200</span>             <span class="comment"># works with all order types</span></code>
                     <code><span class="prompt">GOLD&gt;</span> <span class="cmd">tsl 1%</span>                     <span class="comment"># trailing stop on gold</span></code>
-                    <code></code>
-                    <code><span class="comment"># Create a HIP-3 basket</span></code>
-                    <code><span class="prompt">GOLD&gt;</span> <span class="cmd">index metals GOLD SILVER COPPER PLATINUM</span></code>
-                    <code><span class="prompt">GOLD&gt;</span> <span class="cmd">metals</span>                     <span class="comment"># basket mode for metals</span></code>
                 </div>
             </div>
 
@@ -735,7 +730,7 @@
             <div class="feature-grid">
                 <div class="feature-card">
                     <h4>Variables</h4>
-                    <p>lastprice, bidprice, askprice, markprice, possize, entry, balance, margin, spread, pnl, liqprice — with math and % modifiers.</p>
+                    <p>lastprice, bidprice, askprice, markprice, possize, entry, balance, margin, spread, pnl, liqprice — with arithmetic operators and % modifiers.</p>
                     <code>buy 0.01 lastprice-50</code>
                 </div>
                 <div class="feature-card">
@@ -788,7 +783,7 @@
                 </div>
                 <div class="step">
                     <h3>Trade</h3>
-                    <p>Start executing. All orders default to maker (ALO). 0.01% builder fee per order.</p>
+                    <p>Start executing. All limit orders default to post-only (maker).</p>
                     <div class="terminal">
                         <code><span class="prompt">BTC&gt;</span> <span class="cmd">buy 0.01</span></code>
                     </div>
@@ -834,7 +829,7 @@
 
             <div class="faq-item">
                 <div class="faq-q">What credentials do I need?</div>
-                <div class="faq-a">Two things: your main Hyperliquid wallet address (the one with your funds), and a private key for signing orders. We recommend using an API wallet — generate one at app.hyperliquid.xyz under API settings. API wallets can only trade, not withdraw, so it's the standard best practice. Enter your main wallet address as "account address" and the API wallet private key as "secret key".</div>
+                <div class="faq-a">Two things: your main Hyperliquid wallet address, and a private key for signing orders. We recommend using an API wallet — generate one at app.hyperliquid.xyz under API settings. API wallets are trade-only, which is the standard best practice. Enter your main wallet address as "account address" and the API wallet private key as "secret key".</div>
             </div>
 
             <div class="faq-item">
@@ -844,17 +839,12 @@
 
             <div class="faq-item">
                 <div class="faq-q">Does it support HIP-3 assets?</div>
-                <div class="faq-a">Yes. Just type the asset name — GOLD, TSLA, SPX, etc. The CLI auto-resolves the namespace. All order types work: chase, split, ladder, TSL, iceberg, TWAP. You can also create HIP-3 baskets with the index command.</div>
+                <div class="faq-a">Yes. Just type the asset name — GOLD, TSLA, SPX, etc. The CLI auto-resolves the namespace. All order types work: chase, split, ladder, TSL, iceberg, TWAP.</div>
             </div>
 
             <div class="faq-item">
                 <div class="faq-q">Can I trade multiple instruments at once?</div>
-                <div class="faq-a">Yes — create an index (e.g. index majors BTC ETH SOL) and switch to basket mode by typing the index name. All commands automatically fan out across every instrument in the group.</div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-q">What if the CLI disconnects during a trailing stop?</div>
-                <div class="faq-a">TSL places real stop orders on the exchange — they persist server-side. If the CLI crashes, the last stop level stays active on Hyperliquid. Your position is still protected.</div>
+                <div class="faq-a">Yes — create an index (e.g. index majors BTC ETH SOL) and enter index mode by typing the name. All commands automatically fan out across every instrument in the group.</div>
             </div>
 
         </section>
