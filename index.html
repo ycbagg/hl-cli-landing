@@ -568,7 +568,7 @@
         <section>
             <h2>Why hl-cli</h2>
             <p>Speed — single commands instead of clicking through menus.</p>
-            <p>Order types the UI doesn't support — trailing limits, chained stop+TP sequences, iceberg orders, TWAP, ladders.</p>
+            <p>Order types the UI doesn't support — trailing limits, chained stop+TP sequences, iceberg orders, ladders.</p>
             <p>Basket mode — group instruments into baskets, fan-out commands across all of them.</p>
             <p>HIP-3 markets — trade equities, commodities, and FX perpetuals with the same commands.</p>
             <p>Shortcuts — save setups, execute with one keystroke.</p>
@@ -577,6 +577,72 @@
         <!-- ==================== FEATURES ==================== -->
         <section>
             <h2>Features</h2>
+
+            <!-- Basket Mode -->
+            <div class="demo-section">
+                <h3>Basket Mode</h3>
+                <p>Group instruments into named baskets. Commands fan out across all instruments automatically.</p>
+                <div class="demo-media">
+                    <img src="demos/basket.gif" alt="Basket mode demo" class="zoomable" onclick="openLightbox(this.src)">
+                </div>
+                <div class="terminal">
+                    <code><span class="comment"># Create a basket and enter basket mode</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">basket ai TAO FET NVDA</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">ai</span>                          <span class="comment"># enter basket mode</span></code>
+                    <code></code>
+                    <code><span class="comment"># Commands execute across all instruments</span></code>
+                    <code><span class="prompt">TAO/FET/xyz:NVDA&gt;</span> <span class="cmd">buy $250</span>      <span class="comment"># ~$83 per instrument</span></code>
+                    <code><span class="prompt">TAO/FET/xyz:NVDA&gt;</span> <span class="cmd">sell 50%possize</span> <span class="comment"># 50% of each position</span></code>
+                    <code><span class="prompt">TAO/FET/xyz:NVDA&gt;</span> <span class="cmd">chase buy $600</span> <span class="comment"># 3 chase threads, $200 each</span></code>
+                    <code><span class="prompt">TAO/FET/xyz:NVDA&gt;</span> <span class="cmd">position</span>      <span class="comment"># per-instrument + total PnL</span></code>
+                    <code></code>
+                    <code><span class="prompt">TAO/FET/xyz:NVDA&gt;</span> <span class="cmd">TAO</span>           <span class="comment"># exit to single instrument</span></code>
+                </div>
+            </div>
+
+            <!-- Command Chaining -->
+            <div class="demo-section">
+                <h3>Command Chaining</h3>
+                <p>Chain entry + wait + stop + TP into a single line. Comma for serial, semicolon for parallel.</p>
+                <div class="demo-media">
+                    <img src="demos/chaining.gif" alt="Command chaining demo" class="zoomable" onclick="openLightbox(this.src)">
+                </div>
+                <div class="terminal">
+                    <code><span class="comment"># Chase entry → auto stop/TP at % from fill</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">chase buy 0.1, wait pos, stop entry-2%; tp entry+4%</span></code>
+                    <code></code>
+                    <code><span class="comment"># Iceberg entry → trailing stop on fill</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">iceberg buy 0.5 show 0.05, wait pos, tsl 1%</span></code>
+                    <code></code>
+                    <code><span class="comment"># Wait for spread → chase → trail</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">wait spread > 2.0, chase buy $200, wait pos, tsl 0.5%</span></code>
+                    <code></code>
+                    <code><span class="comment"># Take profit → wait → tighten trail</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">wait pnlpct > 1, reduce 50%, wait 2, tsl 0.3%</span></code>
+                </div>
+            </div>
+
+            <!-- Shortcuts -->
+            <div class="demo-section">
+                <h3>Shortcuts</h3>
+                <p>Bind complex strategies to single keys. Supports {1}, {2} parameters. Saved across sessions.</p>
+                <div class="demo-media">
+                    <img src="demos/shortcuts.gif" alt="Shortcuts demo" class="zoomable" onclick="openLightbox(this.src)">
+                </div>
+                <div class="terminal">
+                    <code><span class="comment"># Bind strategies to single keys</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">sc q split buy 10%margin from bidprice-0.01% to bidprice-0.25% scale 1 to 3</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">sc tpb split sell 80%possize from askprice+0.04% to askprice+0.16% ro</span></code>
+                    <code></code>
+                    <code><span class="comment"># Parameterized: full trade macro with stop/TP %</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">sc go chase buy {1}, wait pos, stop entry-{2}; tp entry+{3}</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">go 0.1 2% 4%</span>                <span class="comment"># buy 0.1, stop -2%, TP +4%</span></code>
+                    <code></code>
+                    <code><span class="comment"># Then just:</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">q</span>                            <span class="comment"># scale-in at bid</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">tpb</span>                          <span class="comment"># TP ladder for longs</span></code>
+                </div>
+            </div>
 
             <!-- Chase -->
             <div class="demo-section">
@@ -664,50 +730,6 @@
                 </div>
             </div>
 
-            <!-- Command Chaining -->
-            <div class="demo-section">
-                <h3>Command Chaining</h3>
-                <p>Chain entry + wait + stop + TP into a single line. Comma for serial, semicolon for parallel.</p>
-                <div class="demo-media">
-                    <img src="demos/chaining.gif" alt="Command chaining demo" class="zoomable" onclick="openLightbox(this.src)">
-                </div>
-                <div class="terminal">
-                    <code><span class="comment"># Chase entry → auto stop/TP at % from fill</span></code>
-                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">chase buy 0.1, wait pos, stop entry-2%; tp entry+4%</span></code>
-                    <code></code>
-                    <code><span class="comment"># Iceberg entry → trailing stop on fill</span></code>
-                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">iceberg buy 0.5 show 0.05, wait pos, tsl 1%</span></code>
-                    <code></code>
-                    <code><span class="comment"># Wait for spread → chase → trail</span></code>
-                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">wait spread > 2.0, chase buy $200, wait pos, tsl 0.5%</span></code>
-                    <code></code>
-                    <code><span class="comment"># Take profit → wait → tighten trail</span></code>
-                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">wait pnlpct > 1, reduce 50%, wait 2, tsl 0.3%</span></code>
-                </div>
-            </div>
-
-            <!-- Basket Mode -->
-            <div class="demo-section">
-                <h3>Basket Mode</h3>
-                <p>Group instruments into named baskets. Commands fan out across all instruments automatically.</p>
-                <div class="demo-media">
-                    <img src="demos/basket.gif" alt="Basket mode demo" class="zoomable" onclick="openLightbox(this.src)">
-                </div>
-                <div class="terminal">
-                    <code><span class="comment"># Create a basket and enter basket mode</span></code>
-                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">basket ai TAO FET NVDA</span></code>
-                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">ai</span>                          <span class="comment"># enter basket mode</span></code>
-                    <code></code>
-                    <code><span class="comment"># Commands execute across all instruments</span></code>
-                    <code><span class="prompt">TAO/FET/xyz:NVDA&gt;</span> <span class="cmd">buy $250</span>      <span class="comment"># ~$83 per instrument</span></code>
-                    <code><span class="prompt">TAO/FET/xyz:NVDA&gt;</span> <span class="cmd">sell 50%possize</span> <span class="comment"># 50% of each position</span></code>
-                    <code><span class="prompt">TAO/FET/xyz:NVDA&gt;</span> <span class="cmd">chase buy $600</span> <span class="comment"># 3 chase threads, $200 each</span></code>
-                    <code><span class="prompt">TAO/FET/xyz:NVDA&gt;</span> <span class="cmd">position</span>      <span class="comment"># per-instrument + total PnL</span></code>
-                    <code></code>
-                    <code><span class="prompt">TAO/FET/xyz:NVDA&gt;</span> <span class="cmd">TAO</span>           <span class="comment"># exit to single instrument</span></code>
-                </div>
-            </div>
-
             <!-- HIP-3 -->
             <div class="demo-section">
                 <h3>HIP-3 Markets</h3>
@@ -718,28 +740,6 @@
                 <div class="terminal">
                     <code><span class="prompt">BTC&gt;</span> <span class="cmd">GOLD</span>                        <span class="comment"># switch to gold futures</span></code>
                     <code><span class="prompt">GOLD&gt;</span> <span class="cmd">q</span>                           <span class="comment"># fires shortcut — split orders on gold</span></code>
-                </div>
-            </div>
-
-            <!-- Shortcuts -->
-            <div class="demo-section">
-                <h3>Shortcuts</h3>
-                <p>Bind complex strategies to single keys. Supports {1}, {2} parameters. Saved across sessions.</p>
-                <div class="demo-media">
-                    <img src="demos/shortcuts.gif" alt="Shortcuts demo" class="zoomable" onclick="openLightbox(this.src)">
-                </div>
-                <div class="terminal">
-                    <code><span class="comment"># Bind strategies to single keys</span></code>
-                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">sc q split buy 10%margin from bidprice-0.01% to bidprice-0.25% scale 1 to 3</span></code>
-                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">sc tpb split sell 80%possize from askprice+0.04% to askprice+0.16% ro</span></code>
-                    <code></code>
-                    <code><span class="comment"># Parameterized: full trade macro with stop/TP %</span></code>
-                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">sc go chase buy {1}, wait pos, stop entry-{2}; tp entry+{3}</span></code>
-                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">go 0.1 2% 4%</span>                <span class="comment"># buy 0.1, stop -2%, TP +4%</span></code>
-                    <code></code>
-                    <code><span class="comment"># Then just:</span></code>
-                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">q</span>                            <span class="comment"># scale-in at bid</span></code>
-                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">tpb</span>                          <span class="comment"># TP ladder for longs</span></code>
                 </div>
             </div>
 
