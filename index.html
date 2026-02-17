@@ -238,7 +238,7 @@
         }
 
         .zoomable {
-            cursor: zoom-in;
+            cursor: pointer;
         }
 
         /* Fee comparison table */
@@ -583,8 +583,7 @@
                 <h3>Chase Orders</h3>
                 <p>Trailing limit that follows BBO — get filled at maker fees instead of market.</p>
                 <div class="demo-media">
-                    <!-- Replace with: <img src="demos/chase.gif"> -->
-                    <div class="placeholder">demos/chase.gif</div>
+                    <img src="demos/chase.gif" alt="Chase order demo" class="zoomable" onclick="openLightbox(this.src)">
                 </div>
                 <div class="terminal">
                     <code><span class="prompt">BTC&gt;</span> <span class="cmd">chase buy 0.1</span>               <span class="comment"># chase at best bid (maker fees)</span></code>
@@ -598,8 +597,7 @@
                 <h3>Split Orders</h3>
                 <p>Scale in or distribute take-profits across a price range with one command.</p>
                 <div class="demo-media">
-                    <!-- Replace with: <img src="demos/split.gif"> -->
-                    <div class="placeholder">demos/split.gif</div>
+                    <img src="demos/split.gif" alt="Split order demo" class="zoomable" onclick="openLightbox(this.src)">
                 </div>
                 <div class="terminal">
                     <code><span class="comment"># Scale entry: buy across 2% range below market</span></code>
@@ -618,8 +616,7 @@
                 <h3>Trailing Stop Loss</h3>
                 <p>Exchange-side stop order that ratchets with price. Auto-detects long/short.</p>
                 <div class="demo-media">
-                    <!-- Replace with: <img src="demos/tsl.gif"> -->
-                    <div class="placeholder">demos/tsl.gif</div>
+                    <img src="demos/tsl.gif" alt="Trailing stop loss demo" class="zoomable" onclick="openLightbox(this.src)">
                 </div>
                 <div class="terminal">
                     <code><span class="prompt">BTC&gt;</span> <span class="cmd">tsl 1%</span>                      <span class="comment"># trail 1% from high/low</span></code>
@@ -632,8 +629,7 @@
                 <h3>Iceberg Orders</h3>
                 <p>Drip-feed size at BBO in chunks — hide your full order from the book.</p>
                 <div class="demo-media">
-                    <!-- Replace with: <img src="demos/iceberg.gif"> -->
-                    <div class="placeholder">demos/iceberg.gif</div>
+                    <img src="demos/iceberg.gif" alt="Iceberg order demo" class="zoomable" onclick="openLightbox(this.src)">
                 </div>
                 <div class="terminal">
                     <code><span class="prompt">BTC&gt;</span> <span class="cmd">iceberg buy 1.0 show 0.1</span>              <span class="comment"># buy 1.0 in 0.1 chunks at BBO</span></code>
@@ -646,8 +642,7 @@
                 <h3>Ladder Orders</h3>
                 <p>Stacked chase — limit orders spread across a range that ratchet with the market. Filled slots stay empty for natural DCA thinning.</p>
                 <div class="demo-media">
-                    <!-- Replace with: <img src="demos/ladder.gif"> -->
-                    <div class="placeholder">demos/ladder.gif</div>
+                    <img src="demos/ladder.gif" alt="Ladder order demo" class="zoomable" onclick="openLightbox(this.src)">
                 </div>
                 <div class="terminal">
                     <code><span class="prompt">BTC&gt;</span> <span class="cmd">ladder buy 0.5 range 2%</span>               <span class="comment"># orders spread 2% below bid</span></code>
@@ -661,8 +656,7 @@
                 <h3>TWAP</h3>
                 <p>Execute large orders in equal slices over time — minimize market impact.</p>
                 <div class="demo-media">
-                    <!-- Replace with: <img src="demos/twap.gif"> -->
-                    <div class="placeholder">demos/twap.gif</div>
+                    <img src="demos/twap.gif" alt="TWAP order demo" class="zoomable" onclick="openLightbox(this.src)">
                 </div>
                 <div class="terminal">
                     <code><span class="prompt">BTC&gt;</span> <span class="cmd">twap buy 1.0 over 30m</span>        <span class="comment"># spread 1.0 BTC over 30 minutes</span></code>
@@ -675,8 +669,7 @@
                 <h3>Command Chaining</h3>
                 <p>Chain entry + wait + stop + TP into a single line. Comma for serial, semicolon for parallel.</p>
                 <div class="demo-media">
-                    <!-- Replace with: <img src="demos/chaining.gif"> -->
-                    <div class="placeholder">demos/chaining.gif</div>
+                    <img src="demos/chaining.gif" alt="Command chaining demo" class="zoomable" onclick="openLightbox(this.src)">
                 </div>
                 <div class="terminal">
                     <code><span class="comment"># Chase entry → auto stop/TP at % from fill</span></code>
@@ -698,8 +691,7 @@
                 <h3>Index Mode</h3>
                 <p>Group instruments into named indices. Commands fan out across all instruments automatically.</p>
                 <div class="demo-media">
-                    <!-- Replace with: <img src="demos/index.gif"> -->
-                    <div class="placeholder">demos/index.gif</div>
+                    <img src="demos/index.gif" alt="Index mode demo" class="zoomable" onclick="openLightbox(this.src)">
                 </div>
                 <div class="terminal">
                     <code><span class="comment"># Create an index and enter index mode</span></code>
@@ -721,8 +713,7 @@
                 <h3>HIP-3 Markets</h3>
                 <p>Trade equities, commodities, and FX perpetuals. Just type the asset name — namespace auto-resolves.</p>
                 <div class="demo-media">
-                    <!-- Replace with: <img src="demos/hip3.gif"> -->
-                    <div class="placeholder">demos/hip3.gif</div>
+                    <img src="demos/hip3.gif" alt="HIP-3 markets demo" class="zoomable" onclick="openLightbox(this.src)">
                 </div>
                 <div class="terminal">
                     <code><span class="prompt">BTC&gt;</span> <span class="cmd">GOLD</span>                        <span class="comment"># switch to gold futures</span></code>
@@ -736,8 +727,7 @@
                 <h3>Shortcuts</h3>
                 <p>Bind complex strategies to single keys. Supports {1}, {2} parameters. Saved across sessions.</p>
                 <div class="demo-media">
-                    <!-- Replace with: <img src="demos/shortcuts.gif"> -->
-                    <div class="placeholder">demos/shortcuts.gif</div>
+                    <img src="demos/shortcuts.gif" alt="Shortcuts demo" class="zoomable" onclick="openLightbox(this.src)">
                 </div>
                 <div class="terminal">
                     <code><span class="comment"># Bind strategies to single keys</span></code>
