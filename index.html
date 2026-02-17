@@ -124,33 +124,6 @@
             margin-right: 0.75rem;
         }
 
-        /* Hero */
-        .hero-demo {
-            margin-bottom: 3rem;
-        }
-
-        .hero-media {
-            background: #111;
-            border: 1px solid #222;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .hero-media video,
-        .hero-media img {
-            width: 100%;
-            display: block;
-        }
-
-        .hero-caption {
-            color: #666;
-            font-size: 0.8rem;
-            text-align: center;
-            padding: 0.75rem;
-            background: #111;
-            border-top: 1px solid #1a1a1a;
-        }
-
         /* Feature demos */
         .demo-section {
             margin-bottom: 2.5rem;
@@ -553,14 +526,6 @@
             <p class="tagline">Stop clicking. Start executing.</p>
         </header>
 
-        <!-- Hero -->
-        <section class="hero-demo">
-            <div class="hero-media">
-                <img src="demos/chaining.gif" alt="hl-cli command chaining — chase entry with auto stop and take profit" class="zoomable" onclick="openLightbox(this.src)">
-                <div class="hero-caption">Chase entry → wait for fill → auto stop + take profit — one command.</div>
-            </div>
-        </section>
-
         <!-- What it is -->
         <section>
             <h2>What it is</h2>
@@ -580,28 +545,6 @@
         <!-- ==================== FEATURES ==================== -->
         <section>
             <h2>Features</h2>
-
-            <!-- Basket Mode -->
-            <div class="demo-section">
-                <h3>Basket Mode</h3>
-                <p>Group instruments into named baskets. Commands fan out across all instruments automatically.</p>
-                <div class="demo-media">
-                    <img src="demos/basket.gif" alt="Basket mode demo" class="zoomable" onclick="openLightbox(this.src)">
-                </div>
-                <div class="terminal">
-                    <code><span class="comment"># Create a basket and enter basket mode</span></code>
-                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">basket ai TAO FET NVDA</span></code>
-                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">ai</span>                          <span class="comment"># enter basket mode</span></code>
-                    <code></code>
-                    <code><span class="comment"># Commands execute across all instruments</span></code>
-                    <code><span class="prompt">TAO/FET/xyz:NVDA&gt;</span> <span class="cmd">buy $250</span>      <span class="comment"># ~$83 per instrument</span></code>
-                    <code><span class="prompt">TAO/FET/xyz:NVDA&gt;</span> <span class="cmd">sell 50%possize</span> <span class="comment"># 50% of each position</span></code>
-                    <code><span class="prompt">TAO/FET/xyz:NVDA&gt;</span> <span class="cmd">chase buy $600</span> <span class="comment"># 3 chase threads, $200 each</span></code>
-                    <code><span class="prompt">TAO/FET/xyz:NVDA&gt;</span> <span class="cmd">position</span>      <span class="comment"># per-instrument + total PnL</span></code>
-                    <code></code>
-                    <code><span class="prompt">TAO/FET/xyz:NVDA&gt;</span> <span class="cmd">TAO</span>           <span class="comment"># exit to single instrument</span></code>
-                </div>
-            </div>
 
             <!-- Command Chaining -->
             <div class="demo-section">
@@ -644,6 +587,28 @@
                     <code><span class="comment"># Then just:</span></code>
                     <code><span class="prompt">BTC&gt;</span> <span class="cmd">q</span>                            <span class="comment"># scale-in at bid</span></code>
                     <code><span class="prompt">BTC&gt;</span> <span class="cmd">tpb</span>                          <span class="comment"># TP ladder for longs</span></code>
+                </div>
+            </div>
+
+            <!-- Basket Mode -->
+            <div class="demo-section">
+                <h3>Basket Mode</h3>
+                <p>Group instruments into named baskets. Commands fan out across all instruments automatically.</p>
+                <div class="demo-media">
+                    <img src="demos/basket.gif" alt="Basket mode demo" class="zoomable" onclick="openLightbox(this.src)">
+                </div>
+                <div class="terminal">
+                    <code><span class="comment"># Create a basket and enter basket mode</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">basket ai TAO FET NVDA</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">ai</span>                          <span class="comment"># enter basket mode</span></code>
+                    <code></code>
+                    <code><span class="comment"># Commands execute across all instruments</span></code>
+                    <code><span class="prompt">TAO/FET/xyz:NVDA&gt;</span> <span class="cmd">buy $250</span>      <span class="comment"># ~$83 per instrument</span></code>
+                    <code><span class="prompt">TAO/FET/xyz:NVDA&gt;</span> <span class="cmd">sell 50%possize</span> <span class="comment"># 50% of each position</span></code>
+                    <code><span class="prompt">TAO/FET/xyz:NVDA&gt;</span> <span class="cmd">chase buy $600</span> <span class="comment"># 3 chase threads, $200 each</span></code>
+                    <code><span class="prompt">TAO/FET/xyz:NVDA&gt;</span> <span class="cmd">position</span>      <span class="comment"># per-instrument + total PnL</span></code>
+                    <code></code>
+                    <code><span class="prompt">TAO/FET/xyz:NVDA&gt;</span> <span class="cmd">TAO</span>           <span class="comment"># exit to single instrument</span></code>
                 </div>
             </div>
 
