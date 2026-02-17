@@ -21,7 +21,7 @@
         }
 
         .container {
-            max-width: 720px;
+            max-width: 1100px;
             margin: 0 auto;
         }
 
@@ -553,8 +553,8 @@
         <!-- Hero -->
         <section class="hero-demo">
             <div class="hero-media">
-                <img src="hero.png" alt="hl-cli ladder orders on BTC with Hyperliquid chart" class="zoomable" onclick="openLightbox(this.src)">
-                <div class="hero-caption">Ladder buy + sell on BTC — orders placed, auto-repositioning on fills.</div>
+                <img src="demos/chaining.gif" alt="hl-cli command chaining — chase entry with auto stop and take profit" class="zoomable" onclick="openLightbox(this.src)">
+                <div class="hero-caption">Chase entry → wait for fill → auto stop + take profit — one command.</div>
             </div>
         </section>
 
@@ -569,7 +569,7 @@
             <h2>Why hl-cli</h2>
             <p>Speed — single commands instead of clicking through menus.</p>
             <p>Order types the UI doesn't support — trailing limits, chained stop+TP sequences, iceberg orders, TWAP, ladders.</p>
-            <p>Index mode — group instruments into indices, fan-out commands across all of them.</p>
+            <p>Basket mode — group instruments into baskets, fan-out commands across all of them.</p>
             <p>HIP-3 markets — trade equities, commodities, and FX perpetuals with the same commands.</p>
             <p>Shortcuts — save setups, execute with one keystroke.</p>
         </section>
@@ -686,25 +686,25 @@
                 </div>
             </div>
 
-            <!-- Index Mode -->
+            <!-- Basket Mode -->
             <div class="demo-section">
-                <h3>Index Mode</h3>
-                <p>Group instruments into named indices. Commands fan out across all instruments automatically.</p>
+                <h3>Basket Mode</h3>
+                <p>Group instruments into named baskets. Commands fan out across all instruments automatically.</p>
                 <div class="demo-media">
-                    <img src="demos/index.gif" alt="Index mode demo" class="zoomable" onclick="openLightbox(this.src)">
+                    <img src="demos/basket.gif" alt="Basket mode demo" class="zoomable" onclick="openLightbox(this.src)">
                 </div>
                 <div class="terminal">
-                    <code><span class="comment"># Create an index and enter index mode</span></code>
-                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">index majors BTC ETH SOL</span></code>
-                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">majors</span>                      <span class="comment"># enter index mode</span></code>
+                    <code><span class="comment"># Create a basket and enter basket mode</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">basket ai TAO FET NVDA</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">ai</span>                          <span class="comment"># enter basket mode</span></code>
                     <code></code>
                     <code><span class="comment"># Commands execute across all instruments</span></code>
-                    <code><span class="prompt">BTC/ETH/SOL&gt;</span> <span class="cmd">buy $300</span>            <span class="comment"># $100 per instrument</span></code>
-                    <code><span class="prompt">BTC/ETH/SOL&gt;</span> <span class="cmd">sell 50%possize</span>     <span class="comment"># 50% of each position</span></code>
-                    <code><span class="prompt">BTC/ETH/SOL&gt;</span> <span class="cmd">chase buy $600</span>      <span class="comment"># 3 chase threads, $200 each</span></code>
-                    <code><span class="prompt">BTC/ETH/SOL&gt;</span> <span class="cmd">position</span>            <span class="comment"># per-instrument + total PnL</span></code>
+                    <code><span class="prompt">TAO/FET/xyz:NVDA&gt;</span> <span class="cmd">buy $250</span>      <span class="comment"># ~$83 per instrument</span></code>
+                    <code><span class="prompt">TAO/FET/xyz:NVDA&gt;</span> <span class="cmd">sell 50%possize</span> <span class="comment"># 50% of each position</span></code>
+                    <code><span class="prompt">TAO/FET/xyz:NVDA&gt;</span> <span class="cmd">chase buy $600</span> <span class="comment"># 3 chase threads, $200 each</span></code>
+                    <code><span class="prompt">TAO/FET/xyz:NVDA&gt;</span> <span class="cmd">position</span>      <span class="comment"># per-instrument + total PnL</span></code>
                     <code></code>
-                    <code><span class="prompt">BTC/ETH/SOL&gt;</span> <span class="cmd">BTC</span>                 <span class="comment"># exit to single instrument</span></code>
+                    <code><span class="prompt">TAO/FET/xyz:NVDA&gt;</span> <span class="cmd">TAO</span>           <span class="comment"># exit to single instrument</span></code>
                 </div>
             </div>
 
@@ -717,8 +717,7 @@
                 </div>
                 <div class="terminal">
                     <code><span class="prompt">BTC&gt;</span> <span class="cmd">GOLD</span>                        <span class="comment"># switch to gold futures</span></code>
-                    <code><span class="prompt">GOLD&gt;</span> <span class="cmd">chase buy $200</span>             <span class="comment"># works with all order types</span></code>
-                    <code><span class="prompt">GOLD&gt;</span> <span class="cmd">tsl 1%</span>                     <span class="comment"># trailing stop on gold</span></code>
+                    <code><span class="prompt">GOLD&gt;</span> <span class="cmd">q</span>                           <span class="comment"># fires shortcut — split orders on gold</span></code>
                 </div>
             </div>
 
@@ -731,7 +730,7 @@
                 </div>
                 <div class="terminal">
                     <code><span class="comment"># Bind strategies to single keys</span></code>
-                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">sc q split buy 44%margin from bidprice-0.01% to bidprice-0.45% scale 1 to 3</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">sc q split buy 10%margin from bidprice-0.01% to bidprice-0.25% scale 1 to 3</span></code>
                     <code><span class="prompt">BTC&gt;</span> <span class="cmd">sc tpb split sell 80%possize from askprice+0.04% to askprice+0.16% ro</span></code>
                     <code></code>
                     <code><span class="comment"># Parameterized: full trade macro with stop/TP %</span></code>
@@ -863,7 +862,7 @@
 
             <div class="faq-item">
                 <div class="faq-q">Can I trade multiple instruments at once?</div>
-                <div class="faq-a">Yes — create an index (e.g. index majors BTC ETH SOL) and enter index mode by typing the name. All commands automatically fan out across every instrument in the group.</div>
+                <div class="faq-a">Yes — create a basket (e.g. basket majors BTC ETH SOL) and enter basket mode by typing the name. All commands automatically fan out across every instrument in the group.</div>
             </div>
 
         </section>
