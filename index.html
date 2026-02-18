@@ -565,6 +565,9 @@
                     <code><span class="comment"># Wait for spread → chase → trail</span></code>
                     <code><span class="prompt">BTC&gt;</span> <span class="cmd">wait spread > 2.0, chase buy $200, wait pos, tsl 0.5%</span></code>
                     <code></code>
+                    <code><span class="comment"># Ladder in → wait 80% filled → market exit</span></code>
+                    <code><span class="prompt">BTC&gt;</span> <span class="cmd">ladder buy $10000 range 1%, wait 80%fill, sell 100%possize</span></code>
+                    <code></code>
                     <code><span class="comment"># Take profit → wait → tighten trail</span></code>
                     <code><span class="prompt">BTC&gt;</span> <span class="cmd">wait pnlpct > 1, reduce 50%, wait 2, tsl 0.3%</span></code>
                 </div>
@@ -717,14 +720,14 @@
             <h3 style="color: #666; margin-top: 2rem; margin-bottom: 0;">And more</h3>
             <div class="feature-grid">
                 <div class="feature-card">
-                    <h4>Variables</h4>
-                    <p>lastprice, bidprice, askprice, markprice, possize, entry, balance, margin, spread, pnl, liqprice — with arithmetic operators and % modifiers.</p>
-                    <code>buy 0.01 lastprice-50</code>
+                    <h4>50+ Live Variables</h4>
+                    <p>Price, position, account, spread, fill, funding, market stats, orderbook depth, order counts, daily candle — all usable in expressions with arithmetic and % modifiers.</p>
+                    <code>buy 1000/askprice, stop fillprice-2%</code>
                 </div>
                 <div class="feature-card">
                     <h4>Wait Conditions</h4>
-                    <p>WebSocket-powered price, spread, PnL, and position triggers. Chain with any command.</p>
-                    <code>wait spread > 2, chase buy $200</code>
+                    <p>WebSocket-powered price, spread, PnL, position, and fill-progress triggers. Chain with any command.</p>
+                    <code>wait 80%fill, sell 100%possize</code>
                 </div>
                 <div class="feature-card">
                     <h4>Move Orders</h4>
