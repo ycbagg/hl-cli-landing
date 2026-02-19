@@ -721,14 +721,14 @@
             <h3 style="color: #666; margin-top: 2rem; margin-bottom: 0;">And more</h3>
             <div class="feature-grid">
                 <div class="feature-card">
-                    <h4>50+ Live Variables</h4>
-                    <p>Price, position, account, spread, fill, funding, market stats, orderbook depth, order counts, daily candle — all usable in expressions with arithmetic and % modifiers.</p>
-                    <code>buy 1000/askprice, stop fillprice-2%</code>
+                    <h4>Live Expressions</h4>
+                    <p>50+ variables — price, position, margin, spread, fill data, funding — resolve in real time. Use them anywhere with arithmetic and % offsets. Your orders stay relative to the market, not pinned to a number.</p>
+                    <code>stop entry-2%, tp entry+4%</code>
                 </div>
                 <div class="feature-card">
-                    <h4>Wait Conditions</h4>
-                    <p>WebSocket-powered price, spread, PnL, position, and fill-progress triggers. Chain with any command.</p>
-                    <code>wait 80%fill, sell 100%possize</code>
+                    <h4>Reactive Waits</h4>
+                    <p>Pause a chain until a condition hits — price level, PnL target, spread threshold, fill progress. Then the next command fires automatically.</p>
+                    <code>wait pnlpct > 1, reduce 50%, wait 2, tsl 0.3%</code>
                 </div>
                 <div class="feature-card">
                     <h4>Move Orders</h4>
